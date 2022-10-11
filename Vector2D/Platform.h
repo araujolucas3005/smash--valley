@@ -33,7 +33,7 @@ public:
     float width;
     float height;
 
-    Platform();
+    Platform(uint type);
     ~Platform();
 
     float Width();

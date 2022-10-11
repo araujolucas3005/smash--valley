@@ -28,8 +28,13 @@ Player::Player(MovementKeys movementKeys)
 
 	height = 90;
 	width = 40;
+	yUp = 0;
 
 	jumpTimer = new Timer();
+	attackTimer = new Timer();
+	hitTimer = new Timer();
+	hitFlyingTimer = new Timer();
+	dashingTimer = new Timer();
 }
 
 // ---------------------------------------------------------------------------------
@@ -69,47 +74,166 @@ void Player::Down()
 
 void Player::Left()
 {
-	velX = -300.0f;
+	lookingDir = LEFT;
+
+	if (!isDashing)
+		velX = -300.0f;
 }
 
 // ---------------------------------------------------------------------------------
 
 void Player::Right()
 {
-	velX = 300.0f;
+	lookingDir = RIGHT;
+
+	if (!isDashing)
+		velX = 300.0f;
+}
+
+void Player::WhenHit(Player* enemy)
+{
+	enemy->isAttacking = true;
+
+	enemy->attackTimer->Start();
+
+	velX = enemy->velX * (hits / 6.0f);
+
+	velY = (enemy->velY < 0 ? -1 : 1) * 200 * (hits / 2.5f);
+
+	isFlyingFromHit = true;
+
+	hits++;
+
+	hitFlyingTimer->Start();
+}
+
+void Player::PlatformCollision(Platform* platform)
+{
+	gravity = 1;
+
+	if (!isFlyingFromHit)
+	{
+		bool jump = false;
+
+		if (window->KeyDown(movementKeys.jump))
+		{
+			MoveTo(x, y - 1.0f);
+
+			jump = true;
+		}
+
+		if (platform->Y() - platform->height / 2 + 5 < Y() + height / 2)
+		{
+			if (x < platform->X())
+			{
+				MoveTo(platform->X() - platform->width / 2 - width / 2 - 1, y);
+			}
+			else
+			{
+				MoveTo(platform->X() + platform->width / 2 + width / 2 + 1, y);
+			}
+		}
+		else if (!jump)
+		{
+			if (!isDashing)
+			{
+				jumps = velX = 0;
+			}
+
+			velY = 0;
+
+			MoveTo(x, platform->Y() - platform->height / 2 - height / 2);
+		}
+	}
+	else
+	{
+		MoveTo(x, platform->Y() - platform->height / 2 - height / 2);
+
+		velY = -velY / 1.5;
+
+	}
+}
+
+void Player::TraversablePlatformCollision(Platform* platform)
+{
+	if (velY > 0 && y + height / 2 < platform->Y() + platform->Height() / 2)
+	{
+		gravity = 1;
+
+		if (!isFlyingFromHit)
+		{
+			if (window->KeyDown(movementKeys.down))
+			{
+				MoveTo(x, y + 1.0f);
+			}
+			else if (window->KeyDown(movementKeys.jump))
+			{
+				MoveTo(x, y - 1.0f);
+			}
+			else
+			{
+				jumps = velX = velY = 0;
+
+				MoveTo(x, platform->Y() - platform->height / 2 - height / 2);
+			}
+		}
+		else
+		{
+			MoveTo(x, platform->Y() - platform->height / 2 - height / 2);
+
+			velY = -velY / 1.5;
+		}
+	}
+}
+
+void Player::PlayerCollision(Player* enemy)
+{
+	if (window->KeyDown(movementKeys.attack) && ctrlAttack && !isAttacking && !isDashing)
+	{
+		ctrlAttack = false;
+
+		if (enemy->isAttacking)
+		{
+			if (!isDashing)
+			{
+				WhenHit(enemy);
+			}
+		}
+		else
+		{
+			if (!enemy->isDashing)
+			{
+				enemy->WhenHit(this);
+			}
+		}
+	}
+	else if (window->KeyUp(movementKeys.attack))
+	{
+		ctrlAttack = true;
+	}
 }
 
 // ---------------------------------------------------------------------------------
 
 void Player::OnCollision(Object* obj)
 {
-	if (obj->Type() == PLATFORM) {
+	if (obj->Type() == PLATFORM)
+	{
 		Platform* platform = (Platform*)obj;
 
-		if (onAir && platform->Y() - platform->height / 2 + 5 < Y() + height / 2) {
-			if (x < platform->X()) {
-				MoveTo(platform->X() - platform->width / 2 - width / 2 - 1, y);
-			}
-			else {
-				MoveTo(platform->X() + platform->width / 2 + width / 2 + 1, y);
-			}
-		}
-		else {
+		PlatformCollision(platform);
+	}
+	else if (obj->Type() == TRAVERSABLE_PLATFORM)
+	{
+		Platform* platform = (Platform*)obj;
 
-			velY = 0;
-			onAir = false;
-			jumps = 0;
+		TraversablePlatformCollision(platform);
+	}
+	else if (obj->Type() == PLAYER)
+	{
+		Player* enemy = (Player*)obj;
 
-			if (window->KeyDown(movementKeys.jump)) {
-				jumps++;
-				MoveTo(x, y - 1.0f);
-			}
-			else {
-				MoveTo(x, platform->Y() - platform->height / 2 - height / 2);
-			}
-		}
-
-
+		PlayerCollision(enemy);
 	}
 }
 
@@ -118,49 +242,106 @@ void Player::OnCollision(Object* obj)
 
 void Player::Update()
 {
-	// tá caindo
-	if (velY > 0) {
-		onAir = true;
+	if (isFlyingFromHit)
+	{
+		if (hitFlyingTimer->Elapsed() > 0.25 * (hits / 3.0f))
+		{
+			isFlyingFromHit = false;
+		}
+		else if (velX > 0)
+		{
+			velX -= 0.25;
+		}
+		else if (velX < 0)
+		{
+			velX += 0.25;
+		}
+	}
+	else
+	{
+		if (window->KeyDown(movementKeys.jump) && ctrlJump && jumps < 4)
+		{
+			velY = -500;
+
+			gravity = 1;
+
+			jumps++;
+
+			ctrlJump = false;
+		}
+		else if (window->KeyUp(movementKeys.jump))
+		{
+			ctrlJump = true;
+		}
+
+		if (!isDashing)
+		{
+			if (window->KeyDown(movementKeys.left))
+			{
+				Left();
+			}
+
+			if (window->KeyDown(movementKeys.right))
+			{
+				Right();
+			}
+
+			if (window->KeyDown(movementKeys.up))
+			{
+				lookingDir = UP;
+			}
+
+			if (window->KeyDown(movementKeys.down) && ctrlDown)
+			{
+				ctrlDown = false;
+
+				gravity = 3;
+			}
+			else if (window->KeyUp(movementKeys.down))
+			{
+				ctrlDown = true;
+			}
+
+			if (window->KeyDown(movementKeys.dash) && ctrlDash && dashingTimer->Elapsed() > 2.0f)
+			{
+				ctrlDash = false;
+
+				isDashing = true;
+
+				dashingTimer->Start();
+
+				velX = lookingDir == RIGHT ? 400 : -400;
+
+				velY = 0;
+
+				gravity = 0;
+			}
+			else if (window->KeyUp(movementKeys.dash))
+			{
+				ctrlDash = true;
+			}
+		}
 	}
 
-	if (window->KeyDown(movementKeys.jump) && ctrlJump && onAir && jumps < 4) {
-		jumps++;
+	if (isDashing)
+	{
+		if (dashingTimer->Elapsed() > 0.25f)
+		{
+			isDashing = false;
 
-		ctrlJump = false;
-
-		jumpTimer->Start();
-
-		velY = -100.0f;
-	}
-	else if (window->KeyUp(movementKeys.jump)) {
-		ctrlJump = true;
-	}
-	
-	// caindo
-	if (jumpTimer->Elapsed() > 0.18f) {
-		velY += 500.0f * gameTime * 3;
+			gravity = 1;
+		}
 	}
 
-	// subindo
-	else {
-		velY -= 500.0f * gameTime * 3;
+	if (isAttacking)
+	{
+		if (attackTimer->Elapsed() > 0.25f)
+		{
+			isAttacking = false;
+		}
 	}
 
-
-	bool moved = false;
-	if (window->KeyDown(movementKeys.left)) {
-		Left();
-		moved = true;
-	}
-
-	if (window->KeyDown(movementKeys.right)) {
-		Right();
-		moved = true;
-	}
-
-	if (!moved) {
-		velX = 0;
-	}
+	velY += gravity;
 
 	Translate(velX * gameTime, velY * gameTime);
 

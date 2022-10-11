@@ -20,6 +20,7 @@
 #include "Sprite.h"                     // interface de Sprites
 #include "Image.h"
 #include "Scene.h"
+#include "Platform.h"
 #include "Timer.h"
 #include "string"
 #include "Audio.h"
@@ -39,6 +40,8 @@ struct MovementKeys {
 	int down;
 	int right;
 	int jump;
+	int attack;
+	int dash;
 };
 
 // ---------------------------------------------------------------------------------
@@ -56,17 +59,45 @@ private:
 	float height;
 
 	bool ctrlJump = true;
+	bool ctrlAttack = true;
+	bool ctrlDown = true;
+	bool ctrlDash = true;
+
 	bool onAir = false;
+	float gravity = 1;
 	ushort jumps = 0;
 
 	float velX = 0;                     // velocidade horizontal do player
 	float velY = 0;                     // velocidade vertical do player
 
 	Timer* jumpTimer = nullptr;
+	Timer* dashingTimer = nullptr;
 
 	MovementKeys movementKeys;
 
+	void PlatformCollision(Platform* platform);
+	void TraversablePlatformCollision(Platform* platform);
+	void PlayerCollision(Player* enemy);
+
 public:
+	Timer* attackTimer = nullptr;
+	Timer* hitTimer = nullptr;
+	Timer* hitFlyingTimer = nullptr;
+	bool wasHit = false;
+	bool isAttacking = false;
+	bool isFlyingFromHit = false;
+	bool isJumping = false;
+	bool firstBouce = false;
+	bool canHitUp = false;
+	bool isDashing = false;
+	float hits = 1;
+
+	uint lookingDir = RIGHT;
+	uint hitFrom = RIGHT;
+
+	bool up = false;
+	float yUp;
+
 	Player(MovementKeys movementKeys);
 	~Player();                          // destrutor
 
@@ -75,6 +106,7 @@ public:
 	void Down();                        // muda direção para baixo
 	void Left();                        // muda direção para esquerda
 	void Right();                       // muda direção para direita
+	void WhenHit(Player* player);
 
 	void OnCollision(Object* obj);     // resolução da colisão
 

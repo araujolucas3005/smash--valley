@@ -11,6 +11,7 @@
 
 #include "Engine.h"
 #include "Vector2D.h"
+#include "GameTest.h"
 
 // ------------------------------------------------------------------------------
 
@@ -33,28 +34,30 @@ void Vector2D::Init()
 	//infoBox = new Sprite("Resources/InfoBox.png");
 	//keyMap = new Sprite("Resources/KeyMap.png");
 
-	playerOne = new Player({ 'W', 'A', 'S', 'D', VK_SPACE });
+	playerOne = new Player({ 'W', 'A', 'S', 'D', VK_SPACE, 'K', VK_SHIFT });
 	playerOne->MoveTo(window->CenterX() - 100, window->CenterY() - 100);
 
-	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0 });
+	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1, DIK_NUMPADENTER });
 	playerTwo->MoveTo(window->CenterX() + 100, window->CenterY() - 100);
 
-	platform = new Platform();
+	platform = new Platform(PLATFORM);
 	platform->width = 800;
 	platform->height = 300;
 	platform->BBox(new Rect(-400, -150, 400, 150));
 	platform->MoveTo(window->CenterX(), 700);
 
-	upPlatform = new Platform();
+	upPlatform = new Platform(TRAVERSABLE_PLATFORM);
+	upPlatform->width = 800;
+	upPlatform->height = 2;
 	upPlatform->BBox(new Rect(-400, -1, 400, 1));
-	upPlatform->MoveTo(window->CenterX(), 200);
+	upPlatform->MoveTo(window->CenterX(), 300);
 
 	// cria cena com o avião
 	scene = new Scene();
 	scene->Add(playerOne, MOVING);
 	scene->Add(playerTwo, MOVING);
 	scene->Add(platform, STATIC);
-	//scene->Add(upPlatform, STATIC);
+	scene->Add(upPlatform, STATIC);
 	//scene->Add(new Plane(), STATIC);
 
 	// calcula proporção entre a janela e o pano de fundo

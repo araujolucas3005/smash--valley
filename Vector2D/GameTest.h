@@ -7,6 +7,7 @@ enum GameTestObjects
 {
     PLAYER,
     PLATFORM,
+    TRAVERSABLE_PLATFORM
 };
 
 // ------------------------------------------------------------------------------
