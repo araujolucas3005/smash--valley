@@ -23,12 +23,15 @@ Player::Player(MovementKeys movementKeys)
 
 	this->movementKeys = movementKeys;
 
-	BBox(new Rect(-20, -45, 20, 45));
+	BBox(new Rect(-20, -30, 20, 30));
 	type = PLAYER;
 
-	height = 90;
+	height = 60;
 	width = 40;
 	yUp = 0;
+	prevX = x;
+	prevY = y;
+	prevVelY = velY;
 
 	jumpTimer = new Timer();
 	attackTimer = new Timer();
@@ -96,7 +99,19 @@ void Player::WhenHit(Player* enemy)
 
 	enemy->attackTimer->Start();
 
-	velX = enemy->velX * (hits / 6.0f);
+	OutputDebugString(std::to_string(prevVelY).c_str());
+	OutputDebugString(" - ");
+	OutputDebugString(std::to_string(enemy->prevVelY).c_str());
+	OutputDebugString("\n");
+
+	if (enemy->prevVelY == 0 && enemy->velX == 0)
+	{
+		velX = (enemy->lookingDir == RIGHT ? 200 : -200) * (hits / 6.0f);
+	}
+	else
+	{
+		velX = enemy->velX * (hits / 6.0f);
+	}
 
 	velY = (enemy->velY < 0 ? -1 : 1) * 200 * (hits / 2.5f);
 
@@ -122,15 +137,23 @@ void Player::PlatformCollision(Platform* platform)
 			jump = true;
 		}
 
-		if (platform->Y() - platform->height / 2 + 5 < Y() + height / 2)
+		if (platform->Y() + platform->height / 2 < prevY - height / 2)
 		{
+			velY = 0;
+
+			MoveTo(x, platform->Y() + platform->height / 2 + height / 2 + 2);
+		}
+		else if (platform->Y() - platform->height / 2 < prevY + height / 2)
+		{
+			velX = 0;
+
 			if (x < platform->X())
 			{
-				MoveTo(platform->X() - platform->width / 2 - width / 2 - 1, y);
+				MoveTo(platform->X() - platform->width / 2 - width / 2 - 2, y);
 			}
 			else
 			{
-				MoveTo(platform->X() + platform->width / 2 + width / 2 + 1, y);
+				MoveTo(platform->X() + platform->width / 2 + width / 2 + 2, y);
 			}
 		}
 		else if (!jump)
@@ -156,7 +179,12 @@ void Player::PlatformCollision(Platform* platform)
 
 void Player::TraversablePlatformCollision(Platform* platform)
 {
-	if (velY > 0 && y + height / 2 < platform->Y() + platform->Height() / 2)
+	//OutputDebugString(std::to_string(prevY).c_str());
+	//OutputDebugString(" - ");
+	//OutputDebugString(std::to_string(y).c_str());
+	//OutputDebugString("\n");
+
+	if (velY > 0 && prevY + height / 2 <= platform->Y() - platform->Height() / 2)
 	{
 		gravity = 1;
 
@@ -242,6 +270,10 @@ void Player::OnCollision(Object* obj)
 
 void Player::Update()
 {
+	prevX = x;
+	prevY = y;
+	prevVelY = velY;
+
 	if (isFlyingFromHit)
 	{
 		if (hitFlyingTimer->Elapsed() > 0.25 * (hits / 3.0f))
@@ -341,7 +373,10 @@ void Player::Update()
 		}
 	}
 
-	velY += gravity;
+	velY += gravity * gameTime * 1000;
+
+	/*OutputDebugString(std::to_string(gameTime).c_str());
+	OutputDebugString("\n");*/
 
 	Translate(velX * gameTime, velY * gameTime);
 
@@ -356,6 +391,8 @@ void Player::Update()
 
 	if (Y() - 20 > window->Height())
 		MoveTo(x, -20.0f);
+
+
 }
 
 // ---------------------------------------------------------------------------------

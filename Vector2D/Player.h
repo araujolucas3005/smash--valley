@@ -55,6 +55,10 @@ private:
 	Sprite* spriteD = nullptr;         // sprite do player indo para baixo
 	Sprite* currSprite = nullptr;
 
+	float prevX;
+	float prevY;
+	float prevVelY;
+
 	float width;
 	float height;
 
@@ -78,6 +82,7 @@ private:
 	void PlatformCollision(Platform* platform);
 	void TraversablePlatformCollision(Platform* platform);
 	void PlayerCollision(Player* enemy);
+	void ResetGravity();
 
 public:
 	Timer* attackTimer = nullptr;

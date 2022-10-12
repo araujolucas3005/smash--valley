@@ -42,14 +42,14 @@ void Vector2D::Init()
 
 	platform = new Platform(PLATFORM);
 	platform->width = 800;
-	platform->height = 300;
-	platform->BBox(new Rect(-400, -150, 400, 150));
-	platform->MoveTo(window->CenterX(), 700);
+	platform->height = 140;
+	platform->BBox(new Rect(-400, -70, 400, 70));
+	platform->MoveTo(window->CenterX(), 500);
 
 	upPlatform = new Platform(TRAVERSABLE_PLATFORM);
 	upPlatform->width = 800;
-	upPlatform->height = 2;
-	upPlatform->BBox(new Rect(-400, -1, 400, 1));
+	upPlatform->height = 20;
+	upPlatform->BBox(new Rect(-400, -10, 400, 10));
 	upPlatform->MoveTo(window->CenterX(), 300);
 
 	// cria cena com o avião
@@ -125,7 +125,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	engine->window->Title("Vector 2D");
 	engine->window->Icon(IDI_ICON);
 	engine->window->Cursor(IDC_CURSOR);
-	//engine->graphics->VSync(true);
+	/*engine->graphics->VSync(true);*/
 
 	// inicia o jogo
 	int status = engine->Start(new Vector2D());
