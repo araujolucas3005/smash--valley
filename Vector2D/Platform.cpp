@@ -14,7 +14,7 @@
 
 // ---------------------------------------------------------------------------------
 
-Platform::Platform(uint type)
+Platform::Platform(uint type) : width(0), height(0)
 {
     this->type = type;
 }

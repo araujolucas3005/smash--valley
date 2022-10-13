@@ -13,29 +13,23 @@
 #include "Player.h"
 #include "Platform.h"
 #include <random>
-enum { MUSIC, EFFECT, FOODSOUND, DEATH, PROJECTILESOUND };
 
 // ---------------------------------------------------------------------------------
 
-Player::Player(MovementKeys movementKeys)
+Player::Player(MovementKeys mk) : mk(mk)
 {
 	type = PLAYER;
 
-	this->movementKeys = movementKeys;
-
 	BBox(new Rect(-20, -30, 20, 30));
-	type = PLAYER;
 
-	height = 60;
-	width = 40;
-	yUp = 0;
-	prevX = x;
-	prevY = y;
-	prevVelY = velY;
+	height = 60; width = 40;
+	prevX = x;  prevY = y;
+	prevVelY = velY = velX = 0;
 
-	jumpTimer = new Timer();
+	ctrlJump = ctrlAttack = ctrlDown = ctrlDash = true;
+	isAttacking = isFlyingFromHit = isDashing = false;
+
 	attackTimer = new Timer();
-	hitTimer = new Timer();
 	hitFlyingTimer = new Timer();
 	dashingTimer = new Timer();
 }
@@ -44,11 +38,9 @@ Player::Player(MovementKeys movementKeys)
 
 Player::~Player()
 {
-	delete spriteL;
-	delete spriteR;
-	delete spriteU;
-	delete spriteD;
-	delete jumpTimer;
+	delete attackTimer;
+	delete hitFlyingTimer;
+	delete dashingTimer;
 }
 
 // ---------------------------------------------------------------------------------
@@ -99,14 +91,9 @@ void Player::WhenHit(Player* enemy)
 
 	enemy->attackTimer->Start();
 
-	OutputDebugString(std::to_string(prevVelY).c_str());
-	OutputDebugString(" - ");
-	OutputDebugString(std::to_string(enemy->prevVelY).c_str());
-	OutputDebugString("\n");
-
 	if (enemy->prevVelY == 0 && enemy->velX == 0)
 	{
-		velX = (enemy->lookingDir == RIGHT ? 200 : -200) * (hits / 6.0f);
+		velX = (enemy->lookingDir == RIGHT ? 300 : -300) * (hits / 6.0f);
 	}
 	else
 	{
@@ -130,7 +117,7 @@ void Player::PlatformCollision(Platform* platform)
 	{
 		bool jump = false;
 
-		if (window->KeyDown(movementKeys.jump))
+		if (window->KeyDown(mk.jump))
 		{
 			MoveTo(x, y - 1.0f);
 
@@ -179,22 +166,17 @@ void Player::PlatformCollision(Platform* platform)
 
 void Player::TraversablePlatformCollision(Platform* platform)
 {
-	//OutputDebugString(std::to_string(prevY).c_str());
-	//OutputDebugString(" - ");
-	//OutputDebugString(std::to_string(y).c_str());
-	//OutputDebugString("\n");
-
 	if (velY > 0 && prevY + height / 2 <= platform->Y() - platform->Height() / 2)
 	{
 		gravity = 1;
 
 		if (!isFlyingFromHit)
 		{
-			if (window->KeyDown(movementKeys.down))
+			if (window->KeyDown(mk.down))
 			{
 				MoveTo(x, y + 1.0f);
 			}
-			else if (window->KeyDown(movementKeys.jump))
+			else if (window->KeyDown(mk.jump))
 			{
 				MoveTo(x, y - 1.0f);
 			}
@@ -216,7 +198,7 @@ void Player::TraversablePlatformCollision(Platform* platform)
 
 void Player::PlayerCollision(Player* enemy)
 {
-	if (window->KeyDown(movementKeys.attack) && ctrlAttack && !isAttacking && !isDashing)
+	if (window->KeyDown(mk.attack) && ctrlAttack && !isAttacking && !isDashing)
 	{
 		ctrlAttack = false;
 
@@ -235,10 +217,25 @@ void Player::PlayerCollision(Player* enemy)
 			}
 		}
 	}
-	else if (window->KeyUp(movementKeys.attack))
+	else if (window->KeyUp(mk.attack))
 	{
 		ctrlAttack = true;
 	}
+}
+
+void Player::Reset() 
+{
+	height = 60; width = 40;
+	prevX = x;  prevY = y;
+	prevVelY = velY = velX = 0;
+	gravity = 1;
+
+	ctrlJump = ctrlAttack = ctrlDown = ctrlDash = true;
+	isAttacking = isFlyingFromHit = isDashing = false;
+
+	attackTimer->Reset();
+	hitFlyingTimer->Reset();
+	dashingTimer->Reset();
 }
 
 // ---------------------------------------------------------------------------------
@@ -270,9 +267,7 @@ void Player::OnCollision(Object* obj)
 
 void Player::Update()
 {
-	prevX = x;
-	prevY = y;
-	prevVelY = velY;
+	prevX = x;  prevY = y; prevVelY = velY;
 
 	if (isFlyingFromHit)
 	{
@@ -291,7 +286,7 @@ void Player::Update()
 	}
 	else
 	{
-		if (window->KeyDown(movementKeys.jump) && ctrlJump && jumps < 4)
+		if (window->KeyDown(mk.jump) && ctrlJump && jumps < 4)
 		{
 			velY = -500;
 
@@ -301,44 +296,37 @@ void Player::Update()
 
 			ctrlJump = false;
 		}
-		else if (window->KeyUp(movementKeys.jump))
+		else if (window->KeyUp(mk.jump))
 		{
 			ctrlJump = true;
 		}
 
 		if (!isDashing)
 		{
-			if (window->KeyDown(movementKeys.left))
+			if (window->KeyDown(mk.left))
 			{
 				Left();
 			}
 
-			if (window->KeyDown(movementKeys.right))
+			if (window->KeyDown(mk.right))
 			{
 				Right();
 			}
 
-			if (window->KeyDown(movementKeys.up))
-			{
-				lookingDir = UP;
-			}
-
-			if (window->KeyDown(movementKeys.down) && ctrlDown)
+			if (window->KeyDown(mk.down) && ctrlDown)
 			{
 				ctrlDown = false;
 
 				gravity = 3;
 			}
-			else if (window->KeyUp(movementKeys.down))
+			else if (window->KeyUp(mk.down))
 			{
 				ctrlDown = true;
 			}
 
-			if (window->KeyDown(movementKeys.dash) && ctrlDash && dashingTimer->Elapsed() > 2.0f)
+			if (window->KeyDown(mk.dash) && ctrlDash && dashingTimer->Elapsed() > 2.0f)
 			{
-				ctrlDash = false;
-
-				isDashing = true;
+				ctrlDash = isDashing = true;
 
 				dashingTimer->Start();
 
@@ -348,7 +336,7 @@ void Player::Update()
 
 				gravity = 0;
 			}
-			else if (window->KeyUp(movementKeys.dash))
+			else if (window->KeyUp(mk.dash))
 			{
 				ctrlDash = true;
 			}
@@ -375,9 +363,6 @@ void Player::Update()
 
 	velY += gravity * gameTime * 1000;
 
-	/*OutputDebugString(std::to_string(gameTime).c_str());
-	OutputDebugString("\n");*/
-
 	Translate(velX * gameTime, velY * gameTime);
 
 	if (x + 20 < 0)
@@ -391,13 +376,11 @@ void Player::Update()
 
 	if (Y() - 20 > window->Height())
 		MoveTo(x, -20.0f);
-
-
 }
 
 // ---------------------------------------------------------------------------------
 
 void Player::Draw()
 {
-
+	
 }

@@ -30,8 +30,7 @@ private:
     //Sprite* platform;                  // sprite da plataforma
 
 public:
-    float width;
-    float height;
+    float width, height;
 
     Platform(uint type);
     ~Platform();

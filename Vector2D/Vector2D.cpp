@@ -37,7 +37,7 @@ void Vector2D::Init()
 	playerOne = new Player({ 'W', 'A', 'S', 'D', VK_SPACE, 'K', VK_SHIFT });
 	playerOne->MoveTo(window->CenterX() - 100, window->CenterY() - 100);
 
-	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1, DIK_NUMPADENTER });
+	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1, VK_NUMPAD2 });
 	playerTwo->MoveTo(window->CenterX() + 100, window->CenterY() - 100);
 
 	platform = new Platform(PLATFORM);

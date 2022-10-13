@@ -19,7 +19,6 @@
 #include "Audio.h"
 #include "Sprite.h"
 #include "Resources.h"
-#include "Plane.h"
 #include "Player.h"
 #include "Platform.h"
 
@@ -40,7 +39,6 @@ private:
     Sprite * backg = nullptr;           // pano de fundo
     Sprite * infoBox = nullptr;         // caixa de informações
     Sprite * keyMap = nullptr;          // caixa para teclas de atalho    
-    Plane * plane = nullptr;            // objeto avião
     
     float bgScale = 0.0f;               // escala do pano de fundo
 
