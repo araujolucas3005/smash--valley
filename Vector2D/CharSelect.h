@@ -15,8 +15,8 @@ private:
 
     uint currIndexPlayerOne = 0;
     uint currIndexPlayerTwo = 0;
-    uint indexPlayerOne = -1;
-    uint indexPlayerTwo = -1;
+    int indexPlayerOne = -1;
+    int indexPlayerTwo = -1;
 
 public:
     void Init();                    // inicia nível
