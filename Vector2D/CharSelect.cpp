@@ -1,9 +1,7 @@
 #include "Engine.h"
+#include "Level1.h"
 #include "SmashValley.h"
 #include "CharSelect.h"
-
-// ------------------------------------------------------------------------------
-// DEIXAR OS DOIS PLAYERS ESCOLHEREM AO MESMO TEMPO
 
 void CharSelect::Init()
 {
@@ -17,13 +15,15 @@ void CharSelect::Init()
 
 void CharSelect::Update()
 {
+    OutputDebugString("test");
+
     // sai com o pressionar do ESC
     if (window->KeyPress(VK_ESCAPE))
         window->Close();
 
     bool allSelected = true;
 
-    if (indexPlayerOne != -1) 
+    if (indexPlayerOne == -1) 
     {
         allSelected = false;
 
@@ -39,11 +39,24 @@ void CharSelect::Update()
         {
             indexPlayerOne = currIndexPlayerOne;
 
-            SmashValley::playerOne->character = SmashValley::characters[indexPlayerOne];
+            if (currIndexPlayerTwo == indexPlayerOne && indexPlayerTwo != -1)
+            {
+                if (currIndexPlayerTwo + 1 < 4)
+                {
+                    currIndexPlayerTwo++;
+                }
+                else if (currIndexPlayerTwo - 1 > 0)
+                {
+                    currIndexPlayerTwo--;
+                }
+            }
+
+            // DESCOMENTAR QUANDO DER NEW NO CHARACTER LÁ NO SmashValley.cpp
+            /*SmashValley::playerOne->character = SmashValley::characters[indexPlayerOne];*/
         }
     }
 
-    if (indexPlayerTwo != -1)
+    if (indexPlayerTwo == -1)
     {
         allSelected = false;
 
@@ -55,16 +68,31 @@ void CharSelect::Update()
         {
             currIndexPlayerTwo++;
         }
-        else if (window->KeyPress(SmashValley::playerTwo->mk.attack))
+        else if (window->KeyPress(/*SmashValley::playerTwo->mk.attack*/'P'))
         {
-            indexPlayerOne = currIndexPlayerOne;
+            indexPlayerTwo = currIndexPlayerTwo;
 
-            SmashValley::playerTwo->character = SmashValley::characters[indexPlayerTwo];
+            if (currIndexPlayerOne == indexPlayerTwo && indexPlayerOne != -1)
+            {
+                if (currIndexPlayerOne + 1 < 4)
+                {
+                    currIndexPlayerOne++;
+                }
+                else if (currIndexPlayerOne - 1 > 0)
+                {
+                    currIndexPlayerOne--;
+                }
+            }
+
+           // DESCOMENTAR QUANDO DER NEW NO CHARACTER LÁ NO SmashValley.cpp
+           /* SmashValley::playerTwo->character = SmashValley::characters[indexPlayerTwo];*/
         }
     }
 
-    if (allSelected = false) {
-        // MANDA PRO LEVEL1
+    OutputDebugString(allSelected ? "selecionados\n" : "não\n");
+
+    if (allSelected) {
+        SmashValley::NextLevel<Level1>();
     }
 }
 
@@ -72,8 +100,8 @@ void CharSelect::Update()
 
 void CharSelect::Draw()
 {
-    backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
-    anim->Draw(545, 275);
+   /* backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+    anim->Draw(545, 275);*/
 }
 
 // ------------------------------------------------------------------------------

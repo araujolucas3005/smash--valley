@@ -29,7 +29,7 @@ void Home::Update()
     }
     else
     {
-        anim->NextFrame();
+        /*anim->NextFrame();*/
     }
 }
 
@@ -37,8 +37,8 @@ void Home::Update()
 
 void Home::Draw()
 {
-    backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
-    anim->Draw(545, 275);
+   /* backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+    anim->Draw(545, 275);*/
 }
 
 // ------------------------------------------------------------------------------
