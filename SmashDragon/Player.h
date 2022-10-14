@@ -50,7 +50,7 @@ private:
 	void PlayerCollision(Player* enemy);
 
 public:
-	//não deletar no player, vai ser deletado no game principal
+	//nï¿½o deletar no player, vai ser deletado no game principal
 	Character* character = nullptr;
 
 	MovementKeys mk;
@@ -58,8 +58,8 @@ public:
 	float velX, velY, prevVelY;
 	bool isAttacking, isFlyingFromHit, isDashing, isReborning = false;
 	float hits = 1;
-	float life = 5.0f;
-	float percentToThrow = hits * 13.55;
+	int life = 5;
+	float percentToThrow = hits;
 
 	Timer* attackTimer = nullptr;
 	Timer* hitFlyingTimer = nullptr;
@@ -70,17 +70,17 @@ public:
 	Player(MovementKeys mk, PLAYERID id);
 	~Player();                          // destrutor
 
-	void Stop();                        // pára jogador
-	void Up();                          // muda direção para cima
-	void Down();                        // muda direção para baixo
-	void Left();                        // muda direção para esquerda
-	void Right();                       // muda direção para direita
+	void Stop();                        // pï¿½ra jogador
+	void Up();                          // muda direï¿½ï¿½o para cima
+	void Down();                        // muda direï¿½ï¿½o para baixo
+	void Left();                        // muda direï¿½ï¿½o para esquerda
+	void Right();                       // muda direï¿½ï¿½o para direita
 	void WhenHit(Player* player);
 	void Reset();
 
-	void OnCollision(Object* obj);     // resolução da colisão
+	void OnCollision(Object* obj);     // resoluï¿½ï¿½o da colisï¿½o
 
-	void Update();                      // atualização do objeto
+	void Update();                      // atualizaï¿½ï¿½o do objeto
 	void Draw();                        // desenho do objeto
 };
 

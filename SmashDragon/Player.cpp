@@ -107,7 +107,7 @@ void Player::WhenHit(Player* enemy)
 	isFlyingFromHit = true;
 
 	hits++;
-	percentToThrow = hits * 13.55;
+	percentToThrow = hits + 13.55;
 
 	hitFlyingTimer->Start();
 }
@@ -373,14 +373,14 @@ void Player::Update()
 		if ((x - 20 > window->Width()) || (x + 20 < 0) || (Y() - 20 > window->Height()))
 		{
 			MoveTo(200.f, 0);
-			life -= 1.0f;
+			life -= 1;
 			velY = 100;
 			velX = 0;
 			isReborning = true;
 			rebornTimer->Start();
 		}
 
-		if (life <= 0.f)
+		if (life <= 0)
 		{
 			if (id == ONE)
 				SmashDragon::playerOnePoints -= 1;
@@ -388,7 +388,7 @@ void Player::Update()
 				SmashDragon::playerTwoPoints -= 1;
 
 			SmashDragon::passLevel = true;
-			life = 5.0f;
+			life = 5;
 		}
 	}
 	else if (rebornTimer->Elapsed() > 0.25f)
