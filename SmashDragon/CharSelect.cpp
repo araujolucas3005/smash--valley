@@ -1,6 +1,6 @@
 #include "Engine.h"
 #include "Level1.h"
-#include "SmashValley.h"
+#include "SmashDragon.h"
 #include "CharSelect.h"
 
 void CharSelect::Init()
@@ -21,21 +21,27 @@ void CharSelect::Update()
     if (window->KeyPress(VK_ESCAPE))
         window->Close();
 
+    if (window->KeyPress(VK_RETURN))
+    {
+        /*   SmashDragon::audio->Stop(MENU);*/
+        SmashDragon::NextLevel<Level1>();
+    }
+
     bool allSelected = true;
 
     if (indexPlayerOne == -1) 
     {
         allSelected = false;
 
-        if (window->KeyPress(SmashValley::playerOne->mk.left) && indexPlayerTwo != currIndexPlayerOne - 1 && currIndexPlayerOne - 1 >= 0)
+        if (window->KeyPress(SmashDragon::playerOne->mk.left) && indexPlayerTwo != currIndexPlayerOne - 1 && currIndexPlayerOne - 1 >= 0)
         {
             currIndexPlayerOne--;
         }
-        else if (window->KeyPress(SmashValley::playerOne->mk.right) && indexPlayerTwo != currIndexPlayerOne + 1 && currIndexPlayerOne + 1 < 4)
+        else if (window->KeyPress(SmashDragon::playerOne->mk.right) && indexPlayerTwo != currIndexPlayerOne + 1 && currIndexPlayerOne + 1 < 4)
         {
             currIndexPlayerOne++;
         }
-        else if (window->KeyPress(SmashValley::playerOne->mk.attack))
+        else if (window->KeyPress(SmashDragon::playerOne->mk.attack))
         {
             indexPlayerOne = currIndexPlayerOne;
 
@@ -51,8 +57,8 @@ void CharSelect::Update()
                 }
             }
 
-            // DESCOMENTAR QUANDO DER NEW NO CHARACTER LÁ NO SmashValley.cpp
-            /*SmashValley::playerOne->character = SmashValley::characters[indexPlayerOne];*/
+            // DESCOMENTAR QUANDO DER NEW NO CHARACTER Lï¿½ NSmashDragoney.cpp
+            /*SmashDragon::playerOne->character = SmashDragon::characters[indexPlayerOne];*/
         }
     }
 
@@ -60,15 +66,15 @@ void CharSelect::Update()
     {
         allSelected = false;
 
-        if (window->KeyPress(SmashValley::playerTwo->mk.left) && indexPlayerOne != currIndexPlayerTwo - 1 && currIndexPlayerTwo - 1 >= 0)
+        if (window->KeyPress(SmashDragon::playerTwo->mk.left) && indexPlayerOne != currIndexPlayerTwo - 1 && currIndexPlayerTwo - 1 >= 0)
         {
             currIndexPlayerTwo--;
         }
-        else if (window->KeyPress(SmashValley::playerTwo->mk.right) && indexPlayerOne != currIndexPlayerTwo + 1 && currIndexPlayerTwo + 1 < 4)
+        else if (window->KeyPress(SmashDragon::playerTwo->mk.right) && indexPlayerOne != currIndexPlayerTwo + 1 && currIndexPlayerTwo + 1 < 4)
         {
             currIndexPlayerTwo++;
         }
-        else if (window->KeyPress(/*SmashValley::playerTwo->mk.attack*/'P'))
+        else if (window->KeyPress(/*SmashDragon::playerTwo->mk.attack*/'P'))
         {
             indexPlayerTwo = currIndexPlayerTwo;
 
@@ -84,15 +90,15 @@ void CharSelect::Update()
                 }
             }
 
-           // DESCOMENTAR QUANDO DER NEW NO CHARACTER LÁ NO SmashValley.cpp
-           /* SmashValley::playerTwo->character = SmashValley::characters[indexPlayerTwo];*/
+           // DESCOMENTAR QUANDO DER NEW NO CHARACTER Lï¿½ NSmashDragoney.cpp
+           /* SmashDragon::playerTwo->character = SmashDragon::characters[indexPlayerTwo];*/
         }
     }
 
-    OutputDebugString(allSelected ? "selecionados\n" : "não\n");
+    OutputDebugString(allSelected ? "selecionados\n" : "nï¿½o\n");
 
     if (allSelected) {
-        SmashValley::NextLevel<Level1>();
+        SmashDragon::NextLevel<Level1>();
     }
 }
 

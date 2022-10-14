@@ -1,22 +1,27 @@
 #include "Engine.h"
-#include "SmashValley.h"
+#include "SmashDragon.h"
 #include "Home.h"
 #include "Level1.h"
+#include "Level2.h"
+#include "Level3.h"
 
 // ------------------------------------------------------------------------------
 
-// inicializa membros estáticos da classe
-Game*		SmashValley::level = nullptr;
-Player*		SmashValley::playerOne = nullptr;
-Player*		SmashValley::playerTwo = nullptr;
-Audio*		SmashValley::audio = nullptr;
-bool		SmashValley::viewBBox = false;
-Character*	SmashValley::characters[4] = { nullptr };
-Sprite*		SmashValley::charactersSelectImg[4] = { nullptr };
+// inicializa membros estï¿½ticos da classe
+Game*		SmashDragon::level = nullptr;
+Player*		SmashDragon::playerOne = nullptr;
+Player*		SmashDragon::playerTwo = nullptr;
+Audio*		SmashDragon::audio = nullptr;
+bool		SmashDragon::viewBBox = false;
+Character*	SmashDragon::characters[4] = { nullptr };
+Sprite*		SmashDragon::charactersSelectImg[4] = { nullptr };
+int			SmashDragon::playerOnePoints = 3;
+int			SmashDragon::playerTwoPoints = 3;
+bool		SmashDragon::passLevel = false;
 
 // ------------------------------------------------------------------------------
 
-void SmashValley::Init()
+void SmashDragon::Init()
 {
 	//ADICIONAR TODOS OS AUDIOS DO JOGO
 	//audio = new Audio();
@@ -24,18 +29,18 @@ void SmashValley::Init()
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
 
-	//ADICIONAR OS PERSONAGENS JOGÁVEIS
+	//ADICIONAR OS PERSONAGENS JOGï¿½VEIS
 	//characters[0] = new Character("Resources/..., ..., ...");
 	//characters[1] = new Character("Resources/...");
 	//characters[2] = new Character("Resources/...");
 	//characters[3] = new Character("Resources/...");
 
-	//ADICIONAR AS SEQUÊNCIAS PARA CADA PERSONAGEM
+	//ADICIONAR AS SEQUï¿½NCIAS PARA CADA PERSONAGEM
 	/*characters[0]->anim->Add(ATTACK, ..., ...);*/
 	/*characters[0]->anim->Add(WALKLEFT, ..., ...);*/
 	//...
 
-	//ADICIONAR AS IMAGENS DE SELECAO DE PERSONAGEM JOGÁVEIS
+	//ADICIONAR AS IMAGENS DE SELECAO DE PERSONAGEM JOGï¿½VEIS
 	//charactersSelectImg[0] = new Sprite("Resources/...");
 	//charactersSelectImg[1] = new Sprite("Resources/...");
 	//charactersSelectImg[2] = new Sprite("Resources/...");
@@ -44,36 +49,36 @@ void SmashValley::Init()
 	viewBBox = false;
 
 	//JOGADORES
-	playerOne = new Player({ 'W', 'A', 'S', 'D', VK_SPACE, 'K', VK_SHIFT });
-	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1, VK_NUMPAD2 });
+	playerOne = new Player({ 'W', 'A', 'S', 'D', VK_SPACE, 'K', VK_SHIFT }, ONE);
+	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1, VK_NUMPAD2 }, TWO);
 
-	level = new Level1();
+	level = new Home();
 	level->Init();
 }
 
 // ------------------------------------------------------------------------------
 
-void SmashValley::Update()
+void SmashDragon::Update()
 {
-	// habilita/desabilita visualização da bounding box
+	// habilita/desabilita visualizaï¿½ï¿½o da bounding box
 	if (window->KeyPress('B'))
 		viewBBox = !viewBBox;
 
-	// atualiza nível
+	// atualiza nï¿½vel
 	level->Update();
 }
 
 // ------------------------------------------------------------------------------
 
-void SmashValley::Draw()
+void SmashDragon::Draw()
 {
-	// desenha nível
+	// desenha nï¿½vel
 	level->Draw();
 }
 
 // ------------------------------------------------------------------------------
 
-void SmashValley::Finalize()
+void SmashDragon::Finalize()
 {
 	level->Finalize();
 
@@ -97,13 +102,13 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     engine->window->Mode(WINDOWED);
     engine->window->Size(1200, 640);
 	engine->window->Color(0, 0, 0);
-    engine->window->Title("Gravity Guy");
+    engine->window->Title("Smash Dragon");
     engine->window->Icon(IDI_ICON);
     engine->window->Cursor(IDC_CURSOR);
     //engine->graphics->VSync(true);
 
     // inicia o jogo
-    int status = engine->Start(new SmashValley());
+    int status = engine->Start(new SmashDragon());
 
     delete engine;
     return status;

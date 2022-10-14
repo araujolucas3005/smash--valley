@@ -1,22 +1,23 @@
 /**********************************************************************************
-// Player (Código Fonte)
+// Player (Cï¿½digo Fonte)
 //
-// Criação:     01 Jan 2013
-// Atualização: 25 Ago 2021
+// Criaï¿½ï¿½o:     01 Jan 2013
+// Atualizaï¿½ï¿½o: 25 Ago 2021
 // Compilador:  Visual C++ 2019
 //
-// Descrição:   Player do jogo SVW
+// Descriï¿½ï¿½o:   Player do jogo SVW
 //
 **********************************************************************************/
 
 #include "GameTest.h"
 #include "Player.h"
 #include "Platform.h"
+#include "SmashDragon.h"
 #include <random>
 
 // ---------------------------------------------------------------------------------
 
-Player::Player(MovementKeys mk) : mk(mk)
+Player::Player(MovementKeys mk, PLAYERID id) : mk(mk), id(id)
 {
 	type = PLAYER;
 
@@ -32,6 +33,7 @@ Player::Player(MovementKeys mk) : mk(mk)
 	attackTimer = new Timer();
 	hitFlyingTimer = new Timer();
 	dashingTimer = new Timer();
+	rebornTimer = new Timer();
 }
 
 // ---------------------------------------------------------------------------------
@@ -105,6 +107,7 @@ void Player::WhenHit(Player* enemy)
 	isFlyingFromHit = true;
 
 	hits++;
+	percentToThrow = hits * 13.55;
 
 	hitFlyingTimer->Start();
 }
@@ -269,113 +272,127 @@ void Player::Update()
 {
 	prevX = x;  prevY = y; prevVelY = velY;
 
-	if (isFlyingFromHit)
+	if (!isReborning)
 	{
-		if (hitFlyingTimer->Elapsed() > 0.25 * (hits / 3.0f))
+		if (isFlyingFromHit)
 		{
-			isFlyingFromHit = false;
+			if (hitFlyingTimer->Elapsed() > 0.25 * (hits / 3.0f))
+			{
+				isFlyingFromHit = false;
+			}
+			else if (velX > 0)
+			{
+				velX -= 0.25;
+			}
+			else if (velX < 0)
+			{
+				velX += 0.25;
+			}
 		}
-		else if (velX > 0)
+		else
 		{
-			velX -= 0.25;
+			if (window->KeyDown(mk.jump) && ctrlJump && jumps < 4)
+			{
+				velY = -500;
+
+				gravity = 1;
+
+				jumps++;
+
+				ctrlJump = false;
+			}
+			else if (window->KeyUp(mk.jump))
+			{
+				ctrlJump = true;
+			}
+
+			if (!isDashing)
+			{
+				if (window->KeyDown(mk.left))
+				{
+					Left();
+				}
+
+				if (window->KeyDown(mk.right))
+				{
+					Right();
+				}
+
+				if (window->KeyDown(mk.down) && ctrlDown)
+				{
+					ctrlDown = false;
+
+					gravity = 3;
+				}
+				else if (window->KeyUp(mk.down))
+				{
+					ctrlDown = true;
+				}
+
+				if (window->KeyDown(mk.dash) && ctrlDash && dashingTimer->Elapsed() > 2.0f)
+				{
+					ctrlDash = isDashing = true;
+
+					dashingTimer->Start();
+
+					velX = lookingDir == RIGHT ? 400 : -400;
+
+					velY = 0;
+
+					gravity = 0;
+				}
+				else if (window->KeyUp(mk.dash))
+				{
+					ctrlDash = true;
+				}
+			}
 		}
-		else if (velX < 0)
+
+		if (isDashing)
 		{
-			velX += 0.25;
+			if (dashingTimer->Elapsed() > 0.25f)
+			{
+				isDashing = false;
+
+				gravity = 1;
+			}
+		}
+
+		if (isAttacking)
+		{
+			if (attackTimer->Elapsed() > 0.25f)
+			{
+				isAttacking = false;
+			}
+		}
+
+		velY += gravity * gameTime * 1000;
+
+		Translate(velX * gameTime, velY * gameTime);
+
+		if ((x - 20 > window->Width()) || (x + 20 < 0) || (Y() - 20 > window->Height()))
+		{
+			MoveTo(200.f, 0);
+			life -= 1.0f;
+			velY = 100;
+			velX = 0;
+			isReborning = true;
+			rebornTimer->Start();
+		}
+
+		if (life <= 0.f)
+		{
+			if (id == ONE)
+				SmashDragon::playerOnePoints -= 1;
+			else
+				SmashDragon::playerTwoPoints -= 1;
+
+			SmashDragon::passLevel = true;
+			life = 5.0f;
 		}
 	}
-	else
-	{
-		if (window->KeyDown(mk.jump) && ctrlJump && jumps < 4)
-		{
-			velY = -500;
-
-			gravity = 1;
-
-			jumps++;
-
-			ctrlJump = false;
-		}
-		else if (window->KeyUp(mk.jump))
-		{
-			ctrlJump = true;
-		}
-
-		if (!isDashing)
-		{
-			if (window->KeyDown(mk.left))
-			{
-				Left();
-			}
-
-			if (window->KeyDown(mk.right))
-			{
-				Right();
-			}
-
-			if (window->KeyDown(mk.down) && ctrlDown)
-			{
-				ctrlDown = false;
-
-				gravity = 3;
-			}
-			else if (window->KeyUp(mk.down))
-			{
-				ctrlDown = true;
-			}
-
-			if (window->KeyDown(mk.dash) && ctrlDash && dashingTimer->Elapsed() > 2.0f)
-			{
-				ctrlDash = isDashing = true;
-
-				dashingTimer->Start();
-
-				velX = lookingDir == RIGHT ? 400 : -400;
-
-				velY = 0;
-
-				gravity = 0;
-			}
-			else if (window->KeyUp(mk.dash))
-			{
-				ctrlDash = true;
-			}
-		}
-	}
-
-	if (isDashing)
-	{
-		if (dashingTimer->Elapsed() > 0.25f)
-		{
-			isDashing = false;
-
-			gravity = 1;
-		}
-	}
-
-	if (isAttacking)
-	{
-		if (attackTimer->Elapsed() > 0.25f)
-		{
-			isAttacking = false;
-		}
-	}
-
-	velY += gravity * gameTime * 1000;
-
-	Translate(velX * gameTime, velY * gameTime);
-
-	if (x + 20 < 0)
-		MoveTo(window->Width() + 20.f, Y());
-
-	if (x - 20 > window->Width())
-		MoveTo(-20.0f, Y());
-
-	if (Y() + 20 < 0)
-		MoveTo(x, window->Height() + 20.0f);
-
-	if (Y() - 20 > window->Height())
-		MoveTo(x, -20.0f);
+	else if (rebornTimer->Elapsed() > 0.25f)
+		isReborning = false;
 }
 
 // ---------------------------------------------------------------------------------

@@ -15,6 +15,7 @@
 using namespace std;
 
 enum PLAYERSTATE { LEFT, RIGHT };
+enum PLAYERID { ONE, TWO };
 
 struct MovementKeys {
 	int up;
@@ -32,9 +33,9 @@ class Player : public Object
 {
 private:
 	uint state = STILL;
+	PLAYERID id;
 
 	float prevX, prevY;
-	float velX, velY, prevVelY;
 	float width, height;
 
 	bool ctrlJump, ctrlAttack, ctrlDown, ctrlDash;
@@ -54,15 +55,19 @@ public:
 
 	MovementKeys mk;
 
-	bool isAttacking, isFlyingFromHit, isDashing;
+	float velX, velY, prevVelY;
+	bool isAttacking, isFlyingFromHit, isDashing, isReborning = false;
 	float hits = 1;
+	float life = 5.0f;
+	float percentToThrow = hits * 13.55;
 
 	Timer* attackTimer = nullptr;
 	Timer* hitFlyingTimer = nullptr;
+	Timer* rebornTimer = nullptr;
 
 	uint lookingDir = RIGHT;
 
-	Player(MovementKeys mk);
+	Player(MovementKeys mk, PLAYERID id);
 	~Player();                          // destrutor
 
 	void Stop();                        // pára jogador

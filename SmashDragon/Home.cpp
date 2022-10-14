@@ -1,5 +1,5 @@
 #include "Engine.h"
-#include "SmashValley.h"
+#include "SmashDragon.h"
 #include "Home.h"
 #include "CharSelect.h"
 
@@ -24,8 +24,8 @@ void Home::Update()
     // se a tecla ENTER for pressionada
     if (window->KeyPress(VK_RETURN))
     {
-     /*   SmashValley::audio->Stop(MENU);*/
-        SmashValley::NextLevel<CharSelect>();
+     /*   SmashDragon::audio->Stop(MENU);*/
+        SmashDragon::NextLevel<CharSelect>();
     }
     else
     {

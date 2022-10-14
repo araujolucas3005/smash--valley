@@ -1,73 +1,73 @@
 
 #include "Engine.h"
-#include "Level1.h"
-#include "SmashValley.h"
+#include "Level3.h"
+#include "EndGame.h"
+#include "SmashDragon.h"
 #include "GameTest.h"
 
-Scene* Level1::scene = nullptr;
+Scene* Level3::scene = nullptr;
 
 // ------------------------------------------------------------------------------
 
-void Level1::Init()
+void Level3::Init()
 {
-	// carrega painéis e pano de fundo
+	// carrega painï¿½is e pano de fundo
 	//backg = new Sprite("Resources/Kamikaze.jpg");
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
-	Platform * platform = new Platform(PLATFORM);
+	Platform* platform = new Platform(PLATFORM);
 	platform->width = 800;
 	platform->height = 140;
 	platform->BBox(new Rect(-400, -70, 400, 70));
-	platform->MoveTo(window->CenterX(), 500);
-
-	Platform* upPlatform = new Platform(TRAVERSABLE_PLATFORM);
-	upPlatform->width = 800;
-	upPlatform->height = 20;
-	upPlatform->BBox(new Rect(-400, -10, 400, 10));
-	upPlatform->MoveTo(window->CenterX(), 300);
+	platform->MoveTo(window->CenterX(), 550);
 
 	scene = new Scene();
-	scene->Add(SmashValley::playerOne, MOVING);
-	scene->Add(SmashValley::playerTwo, MOVING);
+	scene->Add(SmashDragon::playerOne, MOVING);
+	scene->Add(SmashDragon::playerTwo, MOVING);
 	scene->Add(platform, STATIC);
-	scene->Add(upPlatform, STATIC);
 
-	SmashValley::playerOne->MoveTo(window->CenterX() - 100, window->CenterY() - 100);
-	SmashValley::playerTwo->MoveTo(window->CenterX() + 100, window->CenterY() - 100);
+	SmashDragon::playerOne->MoveTo(window->CenterX() - 250, window->CenterY() - 100);
+	SmashDragon::playerTwo->MoveTo(window->CenterX() + 250, window->CenterY() - 100);
 }
 
 // ------------------------------------------------------------------------------
 
-void Level1::Update()
+void Level3::Update()
 {
 	// sai com o pressionar do ESC
 	if (window->KeyDown(VK_ESCAPE))
 		window->Close();
 
-	// atualização da cena
+	// atualizaï¿½ï¿½o da cena
 	scene->Update();
 	scene->CollisionDetection();
+
+	if (SmashDragon::passLevel == true)
+	{
+		SmashDragon::passLevel = false;
+		SmashDragon::NextLevel<EndGame>();
+	}
 }
 
 // ------------------------------------------------------------------------------
 
-void Level1::Draw()
+void Level3::Draw()
 {
 	// desenha pano de fundo
 	//backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, bgScale);
 
 	scene->Draw();
 
-	/*if (SmashValley::viewBBox)*/
+	/*if (SmashDragon::viewBBox)*/
 	scene->DrawBBox();
 }
 
 // ------------------------------------------------------------------------------
 
-void Level1::Finalize()
+void Level3::Finalize()
 {
-	scene->Remove(SmashValley::playerOne, MOVING);
-	scene->Remove(SmashValley::playerTwo, MOVING);
+	scene->Remove(SmashDragon::playerOne, MOVING);
+	scene->Remove(SmashDragon::playerTwo, MOVING);
 
 	delete scene;
 	delete backg;

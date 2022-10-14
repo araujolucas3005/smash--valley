@@ -1,5 +1,5 @@
-#ifndef _SMASH_VALLEY_CHAR_SELECT_H_
-#define _SMASH_VALLEY_CHAR_SELECT_H_
+#ifndef _SMASH_DRAGON_CHAR_SELECT_H_
+#define _SMASH_DRAGON_CHAR_SELECT_H_
 
 #include "Game.h"
 #include "Sprite.h"
@@ -10,8 +10,8 @@ class CharSelect : public Game
 {
 private:
     Sprite* backg = nullptr;       // pano de fundo
-    TileSet* tileset = nullptr;    // tileset da animação
-    Animation* anim = nullptr;     // animação do menu
+    TileSet* tileset = nullptr;    // tileset da animaï¿½ï¿½o
+    Animation* anim = nullptr;     // animaï¿½ï¿½o do menu
 
     uint currIndexPlayerOne = 0;
     uint currIndexPlayerTwo = 0;
@@ -19,10 +19,10 @@ private:
     int indexPlayerTwo = -1;
 
 public:
-    void Init();                    // inicia nível
-    void Update();                  // atualiza lógica do jogo
+    void Init();                    // inicia nï¿½vel
+    void Update();                  // atualiza lï¿½gica do jogo
     void Draw();                    // desenha jogo
-    void Finalize();                // finaliza nível
+    void Finalize();                // finaliza nï¿½vel
 };
 
 #endif
