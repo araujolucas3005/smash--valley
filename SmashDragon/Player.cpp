@@ -32,6 +32,8 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 
 	BBox(mixed);
 
+	lookingDir = rebornDirection == RIGHT ? LEFT : RIGHT;
+
 	height = 160; width = 60;
 	prevX = x;  prevY = y;
 	prevVelY = velY = velX = beforeHitVelX = beforeHitVelY = 0;
