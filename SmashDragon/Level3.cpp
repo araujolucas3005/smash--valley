@@ -69,6 +69,9 @@ void Level3::Finalize()
 	scene->Remove(SmashDragon::playerOne, MOVING);
 	scene->Remove(SmashDragon::playerTwo, MOVING);
 
+	SmashDragon::playerOne->ResetAfterLevel();
+	SmashDragon::playerTwo->ResetAfterLevel();
+
 	delete scene;
 	delete backg;
 }

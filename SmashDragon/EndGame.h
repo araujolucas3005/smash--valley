@@ -13,7 +13,6 @@ private:
     Sprite* backg = nullptr;       // pano de fundo
     TileSet* tileset = nullptr;    // tileset da anima��o
     Animation* anim = nullptr;     // anima��o do menu
-    Font* bold = nullptr;
 
 public:
     void Init();                    // inicia n�vel

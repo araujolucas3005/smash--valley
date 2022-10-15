@@ -9,6 +9,7 @@
 #include "Sprite.h"
 #include "Character.h"
 #include "Resources.h"
+#include "Font.h"
 
 enum Sounds { MENU, MUSIC, TRANSITION };
 
@@ -28,6 +29,13 @@ public:
 	static int playerTwoPoints;
 	static bool passLevel;
 
+	TileSet* gohanLeft;
+	TileSet* gohanRight;
+
+	TileSet* kidGohanLeft;
+	TileSet* kidGohanRight;
+
+	static Font* bold;
 
 	void Init();                    // inicializa jogo
 	void Update();                  // atualiza l�gica do jogo

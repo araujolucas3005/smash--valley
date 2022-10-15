@@ -3,23 +3,19 @@
 
 #include "Animation.h"
 
-enum CharacterState { STILL, JUMP, HIT, WALKLEFT, WALKRIGHT };
+enum CharacterState { STILL, JUMP, HIT, WALKLEFT, WALKRIGHT, HITTAKEN, DASH, WALKJUMP, MOVINGATTACK, WINNEREND, JUMPUP, JUMPDOWN };
 
 class Character
 {
 private:
-    TileSet* tileset;              
+    TileSet* tileset; 
+    TileSet* tilesetRight;
 
 public:
     Animation* anim;        
+    Animation* animRight;
 
-    Character(
-        string tilesetPath, 
-        uint tileWidth = 40,
-        uint tileHeight = 60, 
-        uint numCols = 8,
-        uint numTiles = 40
-    );
+    Character(TileSet* tilesetLeft, TileSet* tilesetRight);
     ~Character();                         
 };
 

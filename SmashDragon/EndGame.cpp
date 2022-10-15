@@ -11,9 +11,6 @@ void EndGame::Init()
     //tileset = new TileSet("Resources/PressEnter.png", 72, 48, 1, 5);
     //anim = new Animation(tileset, 0.180f, true);
     //GravityGuy::audio->Play(MENU, true);
-
-    bold = new Font("Resources/Tahoma14b.png");
-    bold->Spacing("Resources/Tahoma14b.dat");
 }
 
 // ------------------------------------------------------------------------------
@@ -50,17 +47,22 @@ void EndGame::Draw()
         result = "Jogador 2";
 
     Color blue{ 0.60f, 0.60f, 0.65f, 1.0f };
-    bold->Draw(window->CenterX() - 50, window->CenterY(), "Vencedor: " + result, blue);
+    SmashDragon::bold->Draw(window->CenterX() - 50, window->CenterY(), "Vencedor: " + result, blue);
 }
 
 // ------------------------------------------------------------------------------
 
 void EndGame::Finalize()
 {
+    SmashDragon::playerOne->Reset();
+    SmashDragon::playerTwo->Reset();
+
+    SmashDragon::playerOnePoints = 3;
+    SmashDragon::playerTwoPoints = 3;
+
     /*delete anim;
     delete tileset;
     delete backg;*/
-    delete bold;
 }
 
 // ------------------------------------------------------------------------------

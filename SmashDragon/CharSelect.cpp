@@ -15,8 +15,6 @@ void CharSelect::Init()
 
 void CharSelect::Update()
 {
-    OutputDebugString("test");
-
     // sai com o pressionar do ESC
     if (window->KeyPress(VK_ESCAPE))
         window->Close();
@@ -45,7 +43,7 @@ void CharSelect::Update()
         {
             indexPlayerOne = currIndexPlayerOne;
 
-            if (currIndexPlayerTwo == indexPlayerOne && indexPlayerTwo != -1)
+            if (currIndexPlayerTwo == indexPlayerOne)
             {
                 if (currIndexPlayerTwo + 1 < 4)
                 {
@@ -58,7 +56,7 @@ void CharSelect::Update()
             }
 
             // DESCOMENTAR QUANDO DER NEW NO CHARACTER L� NSmashDragoney.cpp
-            /*SmashDragon::playerOne->character = SmashDragon::characters[indexPlayerOne];*/
+            SmashDragon::playerOne->character = SmashDragon::characters[indexPlayerOne];
         }
     }
 
@@ -78,7 +76,7 @@ void CharSelect::Update()
         {
             indexPlayerTwo = currIndexPlayerTwo;
 
-            if (currIndexPlayerOne == indexPlayerTwo && indexPlayerOne != -1)
+            if (currIndexPlayerOne == indexPlayerTwo)
             {
                 if (currIndexPlayerOne + 1 < 4)
                 {
@@ -91,11 +89,9 @@ void CharSelect::Update()
             }
 
            // DESCOMENTAR QUANDO DER NEW NO CHARACTER L� NSmashDragoney.cpp
-           /* SmashDragon::playerTwo->character = SmashDragon::characters[indexPlayerTwo];*/
+            SmashDragon::playerTwo->character = SmashDragon::characters[indexPlayerTwo];
         }
     }
-
-    OutputDebugString(allSelected ? "selecionados\n" : "n�o\n");
 
     if (allSelected) {
         SmashDragon::NextLevel<Level1>();

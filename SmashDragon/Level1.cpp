@@ -72,8 +72,8 @@ void Level1::Draw()
 
 	scene->Draw();
 
-	/*if (SmashDragon::viewBBox)*/
-	scene->DrawBBox();
+	if (SmashDragon::viewBBox)
+		scene->DrawBBox();
 }
 
 // ------------------------------------------------------------------------------
@@ -82,6 +82,9 @@ void Level1::Finalize()
 {
 	scene->Remove(SmashDragon::playerOne, MOVING);
 	scene->Remove(SmashDragon::playerTwo, MOVING);
+
+	SmashDragon::playerOne->ResetAfterLevel();
+	SmashDragon::playerTwo->ResetAfterLevel();
 
 	delete scene;
 	delete backg;

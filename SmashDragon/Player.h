@@ -32,18 +32,28 @@ struct MovementKeys {
 class Player : public Object
 {
 private:
+	uint prevState = STILL;
 	uint state = STILL;
 	PLAYERID id;
 
 	float prevX, prevY;
+	float velX, velY, prevVelY, beforeHitVelX, beforeHitVelY;
 	float width, height;
 
-	bool ctrlJump, ctrlAttack, ctrlDown, ctrlDash;
+	bool ctrlJump, ctrlAttack, ctrlDown, ctrlDash, stoppedAfterHit, invulnerableFromHit;
+
+	uint rebornDirection;
 
 	float gravity = 1;
 	ushort jumps = 0;
 
 	Timer* dashingTimer = nullptr;
+	Timer* stopAfterHitTimer = nullptr;
+	Timer* hitInvunerabilityTimer = nullptr;
+
+	Geometry* attackRect;
+	Geometry* attackRightRect;
+	Geometry* currAttackRect;
 
 	void PlatformCollision(Platform* platform);
 	void TraversablePlatformCollision(Platform* platform);
@@ -55,19 +65,21 @@ public:
 
 	MovementKeys mk;
 
-	float velX, velY, prevVelY;
 	bool isAttacking, isFlyingFromHit, isDashing, isReborning = false;
-	float hits = 1;
+	float hits = 2;
 	int life = 5;
-	float percentToThrow = hits;
+	float percentToThrow = 0;
 
 	Timer* attackTimer = nullptr;
 	Timer* hitFlyingTimer = nullptr;
 	Timer* rebornTimer = nullptr;
+	Timer* levelEndingTimer = nullptr;
+	Timer* enemyInvunerabilityTimer = nullptr;
+	Timer* attackDelayTimer = nullptr;
 
 	uint lookingDir = RIGHT;
 
-	Player(MovementKeys mk, PLAYERID id);
+	Player(MovementKeys mk, PLAYERID id, uint rebornDirection);
 	~Player();                          // destrutor
 
 	void Stop();                        // p�ra jogador
@@ -77,6 +89,7 @@ public:
 	void Right();                       // muda dire��o para direita
 	void WhenHit(Player* player);
 	void Reset();
+	void ResetAfterLevel();
 
 	void OnCollision(Object* obj);     // resolu��o da colis�o
 
