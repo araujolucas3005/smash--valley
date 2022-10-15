@@ -19,11 +19,11 @@ void CharSelect::Update()
     if (window->KeyPress(VK_ESCAPE))
         window->Close();
 
-    if (window->KeyPress(VK_RETURN))
-    {
-        /*   SmashDragon::audio->Stop(MENU);*/
-        SmashDragon::NextLevel<Level1>();
-    }
+    //if (window->KeyPress(VK_RETURN))
+    //{
+    //    /*   SmashDragon::audio->Stop(MENU);*/
+    //    SmashDragon::NextLevel<Level1>();
+    //}
 
     bool allSelected = true;
 

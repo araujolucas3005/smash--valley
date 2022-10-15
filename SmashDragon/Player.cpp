@@ -32,7 +32,7 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 
 	BBox(mixed);
 
-	height = 160; width = 30;
+	height = 160; width = 60;
 	prevX = x;  prevY = y;
 	prevVelY = velY = velX = beforeHitVelX = beforeHitVelY = 0;
 	prevVelY = velY = velX = 0;
@@ -271,7 +271,6 @@ void Player::ResetAfterLevel()
 {
 	lookingDir = RIGHT;
 	state = STILL;
-	height = 60; width = 40;
 	velY = 100;
 	life = 5;
 	prevX = x;  prevY = y;
