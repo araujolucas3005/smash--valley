@@ -58,8 +58,8 @@ void Level3::Draw()
 
 	scene->Draw();
 
-	/*if (SmashDragon::viewBBox)*/
-	scene->DrawBBox();
+	if (SmashDragon::viewBBox)
+		scene->DrawBBox();
 }
 
 // ------------------------------------------------------------------------------
