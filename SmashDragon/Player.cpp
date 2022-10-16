@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Platform.h"
 #include "SmashDragon.h"
+#include "Level.h"
 #include <random>
 
 // ---------------------------------------------------------------------------------
@@ -23,12 +24,18 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 
 	Mixed* mixed = new Mixed();
 
-	attackRect = new Rect(-60, -10, 40, 10);
-	attackRightRect = new Rect(-40, -10, 60, 10);
-	currAttackRect = attackRect;
-
 	mixed->Insert(new Rect(-15, -50, 15, 80));
 	mixed->Insert(new Rect(-30, -30, 30, 80));
+
+	attackRect = new Rect(-60, -10, 40, 5);
+	attackRightRect = new Rect(-40, -10, 60, 5);
+	currAttackRect = attackRect;
+
+	attackRight = new Attack();
+	attackLeft = new Attack();
+
+	attackRight->BBox(new Rect(-40, -10, 60, 5));
+	attackLeft->BBox(new Rect(-60, -10, 40, 5));
 
 	BBox(mixed);
 
@@ -66,6 +73,8 @@ Player::~Player()
 	delete attackDelayTimer;
 	delete attackRect;
 	delete attackRightRect;
+	delete attackRight;
+	delete attackLeft;
 }
 
 // ---------------------------------------------------------------------------------
@@ -248,16 +257,40 @@ void Player::TraversablePlatformCollision(Platform* platform)
 
 void Player::PlayerCollision(Player* enemy)
 {
+	bool attackCollision = false;
+
 	if (enemy->isAttacking && !invulnerableFromHit)
 	{
-		if (!isDashing)
+		Level* level = (Level*)SmashDragon::level;
+
+		if (enemy->lookingDir == RIGHT)
+		{
+			attackCollision = level->scene->Collision(enemy->attackRight, this);
+		}
+		else
+		{
+			attackCollision = level->scene->Collision(enemy->attackLeft, this);
+		}
+
+		if (!isDashing && attackCollision)
 		{
 			WhenHit(enemy);
 		}
 	}
 	else if (isAttacking && !enemy->invulnerableFromHit)
 	{
-		if (!enemy->isDashing)
+		Level* level = (Level*)SmashDragon::level;
+
+		if (lookingDir == RIGHT)
+		{
+			attackCollision = level->scene->Collision(attackRight, enemy);
+		}
+		else
+		{
+			attackCollision = level->scene->Collision(attackLeft, enemy);
+		}
+
+		if (!enemy->isDashing && attackCollision)
 		{
 			enemy->WhenHit(this);
 		}
@@ -329,6 +362,9 @@ void Player::Update()
 	attackRect->MoveTo(x, y);
 	attackRightRect->MoveTo(x, y);
 
+	attackRight->MoveTo(x, y);
+	attackLeft->MoveTo(x, y);
+
 	character->anim->Delay(0.1f);
 	character->animRight->Delay(0.1f);
 
@@ -336,10 +372,11 @@ void Player::Update()
 
 	prevState = state;
 
-	if (velY > 0) 
+	if (velY > 0)
 	{
 		state = JUMPDOWN;
-	} else if (velY < 0) 
+	}
+	else if (velY < 0)
 	{
 		state = JUMPUP;
 	}
@@ -383,7 +420,7 @@ void Player::Update()
 			{
 				if (window->KeyDown(mk.attack) && ctrlAttack && !isAttacking && attackDelayTimer->Elapsed(1.0f))
 				{
-					Mixed* geo = (Mixed*) BBox();
+					Mixed* geo = (Mixed*)BBox();
 
 					if (lookingDir == RIGHT)
 					{
@@ -500,14 +537,14 @@ void Player::Update()
 			character->animRight->Delay(0.032f);
 			state = HIT;
 		}
-			
+
 		else
 		{
 			character->anim->Delay(0.032f);
 			character->animRight->Delay(0.032f);
 			state = MOVINGATTACK;
 		}
-		
+
 
 		if (attackTimer->Elapsed() > 0.1f)
 		{
@@ -535,14 +572,14 @@ void Player::Update()
 		}
 	}
 
-	if (velX == 0 && prevVelY == 0 && !isAttacking) 
+	if (velX == 0 && prevVelY == 0 && !isAttacking)
 	{
 		state = STILL;
 	}
 
 	if ((x - 20 > window->Width()) || (x + 20 < 0) || (Y() - 20 > window->Height()))
 	{
-		if (rebornDirection == LEFT) 
+		if (rebornDirection == LEFT)
 		{
 			MoveTo(200.0f, 0);
 		}
@@ -550,7 +587,7 @@ void Player::Update()
 		{
 			MoveTo(window->Width() - 200.0f, 0);
 		}
-	
+
 		gravity = 1;
 		life--;
 		velY = 100.0f;
@@ -572,20 +609,38 @@ void Player::Update()
 		life = 5;
 	}
 
-	if (!stoppedAfterHit) 
+	if (!stoppedAfterHit)
 	{
 		if (lookingDir == RIGHT)
 		{
-			character->animRight->Select(state);
-			character->animRight->NextFrame();
+			if (state == STILL && character->animRight->Inactive())
+			{
+				character->animRight->Frame(0);
+			}
+			else
+			{
+				character->animRight->Select(state);
+				character->animRight->NextFrame();
+			}
+
 		}
 		else
 		{
-			character->anim->Select(state);
-			character->anim->NextFrame();
+
+			if (state == STILL && character->anim->Inactive())
+			{
+				character->anim->Frame(0);
+			}
+			else
+			{
+
+				character->anim->Select(state);
+				character->anim->NextFrame();
+			}
+
 		}
 	}
-	
+
 }
 
 // ---------------------------------------------------------------------------------

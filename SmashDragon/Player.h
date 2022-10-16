@@ -11,6 +11,7 @@
 #include "string"
 #include "Character.h"
 #include "Audio.h"
+#include "Attack.h"
 #include <vector>
 using namespace std;
 
@@ -69,6 +70,9 @@ public:
 	float hits = 2;
 	int life = 5;
 	float percentToThrow = 0;
+
+	Attack* attackRight;
+	Attack* attackLeft;
 
 	Timer* attackTimer = nullptr;
 	Timer* hitFlyingTimer = nullptr;

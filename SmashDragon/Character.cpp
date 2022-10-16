@@ -16,8 +16,8 @@
 
 Character::Character(TileSet* tilesetLeft, TileSet* tilesetRight)
 {
-	anim = new Animation(tilesetLeft, 0.1f, true);
-	animRight = new Animation(tilesetRight, 0.1f, true);
+	anim = new Animation(tilesetLeft, 0.1f, false);
+	animRight = new Animation(tilesetRight, 0.1f, false);
 }
 
 // ---------------------------------------------------------------------------------

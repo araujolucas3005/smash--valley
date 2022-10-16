@@ -8,8 +8,9 @@
 #include "Resources.h"
 #include "Player.h"
 #include "Platform.h"
+#include "Level.h"
 
-class Level2 : public Game
+class Level2 : public Game, Level
 {
 private:
     Sprite* backg = nullptr;           // pano de fundo
@@ -17,8 +18,6 @@ private:
     float bgScale = 0.0f;               // escala do pano de fundo
 
 public:
-    static Scene* scene;               // gerenciador de cena 
-
     void Init();                        // inicializa��o
     void Update();                      // atualiza��o
     void Draw();                        // desenho

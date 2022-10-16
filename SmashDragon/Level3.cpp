@@ -5,8 +5,6 @@
 #include "SmashDragon.h"
 #include "GameTest.h"
 
-Scene* Level3::scene = nullptr;
-
 // ------------------------------------------------------------------------------
 
 void Level3::Init()

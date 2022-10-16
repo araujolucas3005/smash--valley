@@ -16,9 +16,9 @@ enum Sounds { MENU, MUSIC, TRANSITION };
 class SmashDragon : public Game
 {
 private:
-	static Game* level;            // n�vel atual do jogo
 
 public:
+	static Game* level;            // n�vel atual do jogo
 	static Player* playerOne;
 	static Player* playerTwo;
 	static Audio* audio;           // sistema de �udio

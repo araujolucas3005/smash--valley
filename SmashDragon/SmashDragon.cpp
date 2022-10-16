@@ -43,9 +43,9 @@ void SmashDragon::Init()
 	uint seqAttack[6] = { 18, 19, 20, 21, 22, 23 };
 	uint seqHitTaken[2] = { 45 };
 	uint seqJump[6] = { 65 };
-	uint seqJumpUp[6] = { 65 };
-	uint seqJumpDown[6] = { 68 };
-	uint walk[6] = { 109 };
+	uint seqJumpUp[3] = { 63, 64, 65 };
+	uint seqJumpDown[3] = { 66, 67, 68 };
+	uint walk[2] = { 108, 109 };
 	uint seqDash[6] = { 81 };
 	uint seqWalkJump[1] = { 67 };
 	uint seqMovingAttack[6] = { 82, 82, 83, 83, 84, 84 };
@@ -55,25 +55,25 @@ void SmashDragon::Init()
 	characters[0]->anim->Add(HIT, seqAttack, 6);
 	characters[0]->anim->Add(HITTAKEN, seqHitTaken, 1);
 	characters[0]->anim->Add(JUMP, seqJump, 1);
-	characters[0]->anim->Add(WALKLEFT, walk, 1);
+	characters[0]->anim->Add(WALKLEFT, walk, 2);
 	characters[0]->anim->Add(DASH, seqDash, 1);
 	characters[0]->anim->Add(WALKJUMP, seqWalkJump, 1);
 	characters[0]->anim->Add(MOVINGATTACK, seqMovingAttack, 6);
 	characters[0]->anim->Add(WINNEREND, seqMovingAttack, 6);
-	characters[0]->anim->Add(JUMPUP, seqJumpUp, 1);
-	characters[0]->anim->Add(JUMPDOWN, seqJumpDown, 1);
+	characters[0]->anim->Add(JUMPUP, seqJumpUp, 3);
+	characters[0]->anim->Add(JUMPDOWN, seqJumpDown, 3);
 
 	characters[0]->animRight->Add(STILL, seqStill, 10);
 	characters[0]->animRight->Add(HIT, seqAttack, 6);
 	characters[0]->animRight->Add(HITTAKEN, seqHitTaken, 1);
 	characters[0]->animRight->Add(JUMP, seqJump, 1);
-	characters[0]->animRight->Add(WALKLEFT, walk, 1);
+	characters[0]->animRight->Add(WALKLEFT, walk, 2);
 	characters[0]->animRight->Add(DASH, seqDash, 1);
 	characters[0]->animRight->Add(WALKJUMP, seqWalkJump, 1);
 	characters[0]->animRight->Add(MOVINGATTACK, seqMovingAttack, 6);
 	characters[0]->animRight->Add(WINNEREND, seqMovingAttack, 6);
-	characters[0]->animRight->Add(JUMPUP, seqJumpUp, 1);
-	characters[0]->animRight->Add(JUMPDOWN, seqJumpDown, 1);
+	characters[0]->animRight->Add(JUMPUP, seqJumpUp, 3);
+	characters[0]->animRight->Add(JUMPDOWN, seqJumpDown, 3);
 
 	uint kidGohanSeqStill[10] = { 1, 1, 1, 2, 3, 3, 2, 1, 1, 1 };
 	uint kidGohanSeqAttack[6] = { 66, 66, 67, 67, 68, 68 };
@@ -91,25 +91,25 @@ void SmashDragon::Init()
 	characters[1]->anim->Add(HIT, seqAttack, 6);
 	characters[1]->anim->Add(HITTAKEN, seqHitTaken, 1);
 	characters[1]->anim->Add(JUMP, seqJump, 1);
-	characters[1]->anim->Add(WALKLEFT, walk, 1);
+	characters[1]->anim->Add(WALKLEFT, walk, 2);
 	characters[1]->anim->Add(DASH, seqDash, 1);
 	characters[1]->anim->Add(WALKJUMP, seqWalkJump, 1);
 	characters[1]->anim->Add(MOVINGATTACK, seqMovingAttack, 6);
 	characters[1]->anim->Add(WINNEREND, seqMovingAttack, 6);
-	characters[1]->anim->Add(JUMPUP, seqJumpUp, 1);
-	characters[1]->anim->Add(JUMPDOWN, seqJumpDown, 1);
+	characters[1]->anim->Add(JUMPUP, seqJumpUp, 3);
+	characters[1]->anim->Add(JUMPDOWN, seqJumpDown, 3);
 
 	characters[1]->animRight->Add(STILL, seqStill, 10);
 	characters[1]->animRight->Add(HIT, seqAttack, 6);
 	characters[1]->animRight->Add(HITTAKEN, seqHitTaken, 1);
 	characters[1]->animRight->Add(JUMP, seqJump, 1);
-	characters[1]->animRight->Add(WALKLEFT, walk, 1);
+	characters[1]->animRight->Add(WALKLEFT, walk, 2);
 	characters[1]->animRight->Add(DASH, seqDash, 1);
 	characters[1]->animRight->Add(WALKJUMP, seqWalkJump, 1);
 	characters[1]->animRight->Add(MOVINGATTACK, seqMovingAttack, 6);
 	characters[1]->animRight->Add(WINNEREND, seqMovingAttack, 6);
-	characters[1]->animRight->Add(JUMPUP, seqJumpUp, 1);
-	characters[1]->animRight->Add(JUMPDOWN, seqJumpDown, 1);
+	characters[1]->animRight->Add(JUMPUP, seqJumpUp, 3);
+	characters[1]->animRight->Add(JUMPDOWN, seqJumpDown, 3);
 
 	// GOHAN PEQUENO
 	//characters[1]->anim->Add(STILL, kidGohanSeqStill, 10);
