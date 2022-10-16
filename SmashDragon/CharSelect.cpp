@@ -5,10 +5,35 @@
 
 void CharSelect::Init()
 {
-    //backg = new Sprite("Resources/TitleScreen.png");
-    //tileset = new TileSet("Resources/PressEnter.png", 72, 48, 1, 5);
-    //anim = new Animation(tileset, 0.180f, true);
-    //GravityGuy::audio->Play(MENU, true);
+    backg = new Sprite("Resources/CharSelection/fundo.png");
+    infoTop = new Sprite("Resources/CharSelection/top.png");
+    icones = new Sprite("Resources/CharSelection/icones.png");
+    tileset = new TileSet("Resources/CharSelection/selection_square_Sprite_Sheet.png", 205, 205, 5, 5);
+    uint seq[] = { 0, 1, 2, 3, 4, 4, 3, 2, 1, 0 };
+
+    animP1 = new Animation(tileset, 0.090f, true);
+    animP1->Add(FORWARD, seq, 10);
+    animP1->Select(FORWARD);
+
+    animP2 = new Animation(tileset, 0.180f, false);
+    animP2->Add(FORWARD, seq, 10);
+    animP2->Select(FORWARD);
+    
+    audio = new Audio();
+    audio->Add(GOKU, "Resources/CharSelection/goku.wav");
+    audio->Add(VEGETA, "Resources/CharSelection/vegeta.wav");
+    audio->Add(GOHAN, "Resources/CharSelection/gohan.wav");
+    audio->Add(SELECT, "Resources/CharSelection/select_your_fighter.wav");
+    audio->Add(SONG, "Resources/CharSelection/selection_song.wav");
+    audio->Add(SELECTION, "Resources/CharSelection/SelectionSound.wav", 2);
+    audio->Add(SELECTED, "Resources/CharSelection/SelectedSound.wav", 2);
+
+    audio->Volume(SELECTION, 0.6);
+    audio->Volume(SELECTED, 0.6);
+
+    audio->Volume(SONG, 0.4);
+    audio->Play(SONG, true);
+    audio->Play(SELECT);
 }
 
 // ------------------------------------------------------------------------------
@@ -34,10 +59,12 @@ void CharSelect::Update()
         if (window->KeyPress(SmashDragon::playerOne->mk.left) && indexPlayerTwo != currIndexPlayerOne - 1 && currIndexPlayerOne - 1 >= 0)
         {
             currIndexPlayerOne--;
+            audio->Play(SELECTION);
         }
         else if (window->KeyPress(SmashDragon::playerOne->mk.right) && indexPlayerTwo != currIndexPlayerOne + 1 && currIndexPlayerOne + 1 < 4)
         {
             currIndexPlayerOne++;
+            audio->Play(SELECTION);
         }
         else if (window->KeyPress(SmashDragon::playerOne->mk.attack))
         {
@@ -57,6 +84,14 @@ void CharSelect::Update()
 
             // DESCOMENTAR QUANDO DER NEW NO CHARACTER L� NSmashDragoney.cpp
             SmashDragon::playerOne->character = SmashDragon::characters[indexPlayerOne];
+            audio->Play(SELECTED);
+
+            switch (indexPlayerOne)
+            {
+                case 0: audio->Play(GOKU); break;
+                case 1: case 3: audio->Play(GOHAN); break;
+                case 2: audio->Play(VEGETA); break;
+            }
         }
     }
 
@@ -67,10 +102,12 @@ void CharSelect::Update()
         if (window->KeyPress(SmashDragon::playerTwo->mk.left) && indexPlayerOne != currIndexPlayerTwo - 1 && currIndexPlayerTwo - 1 >= 0)
         {
             currIndexPlayerTwo--;
+            audio->Play(SELECTION);
         }
         else if (window->KeyPress(SmashDragon::playerTwo->mk.right) && indexPlayerOne != currIndexPlayerTwo + 1 && currIndexPlayerTwo + 1 < 4)
         {
             currIndexPlayerTwo++;
+            audio->Play(SELECTION);
         }
         else if (window->KeyPress(/*SmashDragon::playerTwo->mk.attack*/'P'))
         {
@@ -90,29 +127,49 @@ void CharSelect::Update()
 
            // DESCOMENTAR QUANDO DER NEW NO CHARACTER L� NSmashDragoney.cpp
             SmashDragon::playerTwo->character = SmashDragon::characters[indexPlayerTwo];
+            audio->Play(SELECTED);
+
+            switch (indexPlayerTwo)
+            {
+            case 0: audio->Play(GOKU); break;
+            case 1: case 3: audio->Play(GOHAN); break;
+            case 2: audio->Play(VEGETA); break;
+            }
         }
     }
 
     if (allSelected) {
         SmashDragon::NextLevel<Level1>();
     }
+
+    animP1->NextFrame();
+    animP2->NextFrame();
 }
 
 // ------------------------------------------------------------------------------
 
 void CharSelect::Draw()
 {
-   /* backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
-    anim->Draw(545, 275);*/
+   backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+   infoTop->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
+   icones->Draw(window->CenterX(), window->CenterY(), Layer::UPPER);
+   SmashDragon::charactersSelectImg[currIndexPlayerOne]->Draw(window->CenterX() - 350, window->CenterY(), Layer::MIDDLE);
+   SmashDragon::charactersSelectImg[currIndexPlayerTwo]->Draw(window->CenterX() + 350, window->CenterY(), Layer::MIDDLE);
+   animP1->Draw(370 + (167 * currIndexPlayerOne), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1});
+   animP2->Draw((window->Width() - 330) - (167 * (3 - currIndexPlayerTwo)), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
 }
 
 // ------------------------------------------------------------------------------
 
 void CharSelect::Finalize()
 {
-    delete anim;
+    delete animP1;
+    delete animP2;
     delete tileset;
     delete backg;
+    delete infoTop;
+    delete icones;
+    delete audio;
 }
 
 // ------------------------------------------------------------------------------

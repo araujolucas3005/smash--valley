@@ -146,10 +146,10 @@ void SmashDragon::Init()
 	//...
 
 	//ADICIONAR AS IMAGENS DE SELECAO DE PERSONAGEM JOG�VEIS
-	//charactersSelectImg[0] = new Sprite("Resources/...");
-	//charactersSelectImg[1] = new Sprite("Resources/...");
-	//charactersSelectImg[2] = new Sprite("Resources/...");
-	//charactersSelectImg[3] = new Sprite("Resources/...");
+	charactersSelectImg[0] = new Sprite("Resources/CharSelection/goku.png");
+	charactersSelectImg[1] = new Sprite("Resources/CharSelection/gohan.png");
+	charactersSelectImg[2] = new Sprite("Resources/CharSelection/vegeta.png");
+	charactersSelectImg[3] = new Sprite("Resources/CharSelection/kid gohan.png");
 
 	bold = new Font("Resources/Tahoma14b.png");
 	bold->Spacing("Resources/Tahoma14b.dat");

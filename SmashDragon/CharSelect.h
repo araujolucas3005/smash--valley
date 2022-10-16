@@ -6,15 +6,22 @@
 #include "TileSet.h"
 #include "Animation.h"
 
+enum { FORWARD };
+enum { VEGETA, SELECT, GOKU, GOHAN, SELECTION, SELECTED, SONG };
+
 class CharSelect : public Game
 {
 private:
     Sprite* backg = nullptr;       // pano de fundo
+    Sprite* infoTop = nullptr;
+    Sprite* icones = nullptr;
     TileSet* tileset = nullptr;    // tileset da anima��o
-    Animation* anim = nullptr;     // anima��o do menu
+    Animation* animP1 = nullptr;     // anima��o do menu
+    Animation* animP2 = nullptr;     // anima��o do menu
+    Audio* audio = nullptr;
 
     uint currIndexPlayerOne = 0;
-    uint currIndexPlayerTwo = 0;
+    uint currIndexPlayerTwo = 3;
     int indexPlayerOne = -1;
     int indexPlayerTwo = -1;
 
