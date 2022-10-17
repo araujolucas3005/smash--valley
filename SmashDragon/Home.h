@@ -5,13 +5,30 @@
 #include "Sprite.h"
 #include "TileSet.h"
 #include "Animation.h"
+#include "Item.h"
+#include "Mouse.h"
+
+enum Buttons { PLAY, INSTRUCTIONS };
 
 class Home : public Game
 {
 private:
+    Scene* scene = nullptr;
     Sprite* backg = nullptr;       // pano de fundo
-    TileSet* tileset = nullptr;    // tileset da anima��o
-    Animation* anim = nullptr;     // anima��o do menu
+    Sprite* front = nullptr;
+    Image* frontCloudsImage = nullptr;
+    Image* backCloudsImage = nullptr;
+    float xF;
+    float xB;
+    Sprite* frontClouds1;
+    Sprite* frontClouds2;
+    Sprite* backClouds1;
+    Sprite* backClouds2;
+    TileSet* tilesetPlay = nullptr;    // tileset da anima��o
+    TileSet* tilesetInst = nullptr;    // tileset da anima��o
+    Item* menu[2] = { 0 };
+    Mouse* mouse = nullptr;
+    bool passLevel = false;
 
 public:
     void Init();                    // inicia n�vel

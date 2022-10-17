@@ -250,11 +250,14 @@
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Home.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Item.h" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Level2.cpp" />
     <ClCompile Include="Level3.cpp" />
     <ClCompile Include="LevelAnim.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -290,6 +293,7 @@
     <ClInclude Include="Level2.h" />
     <ClInclude Include="Level3.h" />
     <ClInclude Include="LevelAnim.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />

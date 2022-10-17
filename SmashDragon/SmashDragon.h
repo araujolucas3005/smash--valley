@@ -11,7 +11,7 @@
 #include "Resources.h"
 #include "Font.h"
 
-enum Sounds { MENU, MUSIC, TRANSITION, GET_READY_FOR_BATTLE };
+enum Sounds { MENU, MUSIC, TRANSITION };
 
 class SmashDragon : public Game
 {

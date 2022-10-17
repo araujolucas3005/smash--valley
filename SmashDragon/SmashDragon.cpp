@@ -28,8 +28,8 @@ Font*		SmashDragon::bold = nullptr;
 void SmashDragon::Init()
 {
 	//ADICIONAR TODOS OS AUDIOS DO JOGO
-	//audio = new Audio();
-	//audio->Add(MENU, "Resources/Menu.wav");
+	audio = new Audio();
+	audio->Add(MENU, "Resources/Home/opening_song.wav");
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
 
@@ -213,6 +213,7 @@ void SmashDragon::Init()
 	dash = new TileSet("Resources/dash_sprite_small.png", 1, 6);
 
 	level = new Home();
+	SmashDragon::audio->Play(MENU, true);
 	level->Init();
 }
 

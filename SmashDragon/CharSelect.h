@@ -7,7 +7,7 @@
 #include "Animation.h"
 
 enum { FORWARD };
-enum { VEGETA, SELECT, GOKU, GOHAN, SELECTION, SELECTED, SONG, READYBATTLE};
+enum { VEGETA, SELECT, GOKU, GOHAN, SELECTION, SELECTED, SONG, READYBATTLE };
 
 class CharSelect : public Game
 {
@@ -15,13 +15,15 @@ private:
     Sprite* backg = nullptr;       // pano de fundo
     Sprite* infoTop = nullptr;
     Sprite* icones = nullptr;
+    Sprite* P1 = nullptr;
+    Sprite* P2 = nullptr;
     TileSet* tileset = nullptr;    // tileset da anima��o
     Animation* animP1 = nullptr;     // anima��o do menu
     Animation* animP2 = nullptr;     // anima��o do menu
     Audio* audio = nullptr;
 
     int currIndexPlayerOne = 0;
-    int currIndexPlayerTwo = 0;
+    int currIndexPlayerTwo = 3;
     int indexPlayerOne = -1;
     int indexPlayerTwo = -1;
 

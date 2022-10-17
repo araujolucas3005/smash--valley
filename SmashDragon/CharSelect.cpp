@@ -8,6 +8,8 @@ void CharSelect::Init()
     backg = new Sprite("Resources/CharSelection/fundo.png");
     infoTop = new Sprite("Resources/CharSelection/top.png");
     icones = new Sprite("Resources/CharSelection/icones.png");
+    P1 = new Sprite("Resources/CharSelection/1P.png");
+    P2 = new Sprite("Resources/CharSelection/2P.png");
     tileset = new TileSet("Resources/CharSelection/selection_square_Sprite_Sheet.png", 205, 205, 5, 5);
     uint seq[] = { 0, 1, 2, 3, 4, 4, 3, 2, 1, 0 };
 
@@ -15,7 +17,7 @@ void CharSelect::Init()
     animP1->Add(FORWARD, seq, 10);
     animP1->Select(FORWARD);
 
-    animP2 = new Animation(tileset, 0.180f, false);
+    animP2 = new Animation(tileset, 0.090f, true);
     animP2->Add(FORWARD, seq, 10);
     animP2->Select(FORWARD);
     
@@ -32,7 +34,7 @@ void CharSelect::Init()
     audio->Volume(SELECTION, 0.6);
     audio->Volume(SELECTED, 0.6);
 
-    audio->Volume(SONG, 0.4);
+    audio->Volume(SONG, 0.5);
     audio->Play(SONG, true);
     audio->Play(SELECT);
 }
@@ -70,6 +72,8 @@ void CharSelect::Update()
             {
                 currIndexPlayerOne--;
             }
+
+            audio->Play(SELECTION);
         }
         else if (window->KeyPress(SmashDragon::playerOne->mk.right))
         {
@@ -182,6 +186,7 @@ void CharSelect::Update()
     }
 
     if (allSelected) {
+        audio->Stop(SONG);
         audio->Play(READYBATTLE);
         Sleep(2000);
         SmashDragon::NextLevel<Level1>();
@@ -204,6 +209,8 @@ void CharSelect::Draw()
    SmashDragon::charactersSelectImg[currIndexPlayerTwo]->Draw(window->CenterX() + 350, window->CenterY(), Layer::MIDDLE);
    animP1->Draw(370 + (167 * currIndexPlayerOne), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1});
    animP2->Draw((window->Width() - 330) - (167 * (3 - currIndexPlayerTwo)), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
+   P1->Draw(370 + (167 * currIndexPlayerOne), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
+   P2->Draw((window->Width() - 330) - (167 * (3 - currIndexPlayerTwo)), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
 }
 
 // ------------------------------------------------------------------------------
@@ -217,6 +224,8 @@ void CharSelect::Finalize()
     delete infoTop;
     delete icones;
     delete audio;
+    delete P1;
+    delete P2;
 }
 
 // ------------------------------------------------------------------------------
