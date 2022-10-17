@@ -180,11 +180,11 @@ void Player::PlatformCollision(Platform* platform)
 		{
 			velX = 0;
 
-			if (x < platform->X())
+			if (prevX + width / 2 < platform->X() - platform->width / 2)
 			{
 				MoveTo(platform->X() - platform->width / 2 - width / 2 - 2, y);
 			}
-			else
+			else if (prevX - width / 2 > platform->X() + platform->width / 2)
 			{
 				MoveTo(platform->X() + platform->width / 2 + width / 2 + 2, y);
 			}
