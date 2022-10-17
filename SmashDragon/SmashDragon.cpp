@@ -33,10 +33,10 @@ void SmashDragon::Init()
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
 
-	gokuLeft = new TileSet("Resources/goku_sprite_sheet_l.png", 153, 153, 8, 112);
+	gokuLeft = new TileSet("Resources/goku_sprite_sheet_l.png", 153, 153, 8, 120);
 	gokuRight = new TileSet("Resources/goku_sprite_sheet_r.png", 153, 153, 8, 112);
 
-	gohanLeft = new TileSet("Resources/gohan_spreadsheet.png", 172.877777, 159, 9, 117);
+	gohanLeft = new TileSet("Resources/gohan_spreadsheet_l.png", 172.877777, 159, 9, 117);
 	gohanRight = new TileSet("Resources/gohan_spreadsheet_r.png", 172.877777, 159, 9, 117);
 
 	vegetaLeft = new TileSet("Resources/vegeta_spritesheet_l.png", 153, 150, 9, 126);
@@ -51,23 +51,23 @@ void SmashDragon::Init()
 	characters[3] = new Character(kidGohanLeft, kidGohanRight);
 
 	uint gseqStill[10] = { 0, 0, 1, 2, 3, 3, 2, 1, 0, 0 };
-	uint gseqAttack[5] = { 96, 97, 97, 98, 99 };
+	uint gseqAttack[12] = { 96,96,96, 97,97,97, 98,98,98, 99,99,99 };
 	uint gseqHitTaken[4] = { 88, 87, 89, 90 };
 	uint gseqJump[6] = { 64, 65, 66 };
-	uint gseqJumpUp[3] = { 64, 65, 66 };
-	uint gseqJumpDown[3] = { 70, 70, 70 };
+	uint gseqJumpUp[3] = { 70, 70, 70 };
+	uint gseqJumpDown[3] = { 64, 65, 66 };
 	uint gwalk[2] = { 72, 73 };
-	uint gseqDash[6] = { 53 };
+	uint gseqDash[6] = { 24,25,56 };
 	uint gseqWalkJump[1] = { 67 };
 	uint gseqMovingAttack[6] = { 48, 49, 50, 51, 52, 53 };
 	uint gwinnerEnd[6] = { 104, 104, 105, 105, 106, 106 };
 
 	characters[0]->AddSec(STILL, gseqStill, 10);
-	characters[0]->AddSec(HIT, gseqAttack, 5);
+	characters[0]->AddSec(HIT, gseqAttack, 12);
 	characters[0]->AddSec(HITTAKEN, gseqHitTaken, 4);
 	characters[0]->AddSec(JUMP, gseqJump, 1);
 	characters[0]->AddSec(WALKLEFT, gwalk, 2);
-	characters[0]->AddSec(DASH, gseqDash, 1);
+	characters[0]->AddSec(DASH, gseqDash, 3);
 	characters[0]->AddSec(WALKJUMP, gseqWalkJump, 1);
 	characters[0]->AddSec(MOVINGATTACK, gseqMovingAttack, 6);
 	characters[0]->AddSec(WINNEREND, gwinnerEnd, 6);

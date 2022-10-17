@@ -7,7 +7,7 @@
 #include "Animation.h"
 
 enum { FORWARD };
-enum { VEGETA, SELECT, GOKU, GOHAN, SELECTION, SELECTED, SONG };
+enum { VEGETA, SELECT, GOKU, GOHAN, SELECTION, SELECTED, SONG, READYBATTLE};
 
 class CharSelect : public Game
 {

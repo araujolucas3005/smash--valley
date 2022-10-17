@@ -27,6 +27,7 @@ void CharSelect::Init()
     audio->Add(SONG, "Resources/CharSelection/selection_song.wav");
     audio->Add(SELECTION, "Resources/CharSelection/SelectionSound.wav", 2);
     audio->Add(SELECTED, "Resources/CharSelection/SelectedSound.wav", 2);
+    audio->Add(READYBATTLE, "Resources/CharSelection/get_ready_for_battle.wav");
 
     audio->Volume(SELECTION, 0.6);
     audio->Volume(SELECTED, 0.6);
@@ -173,14 +174,16 @@ void CharSelect::Update()
 
             switch (indexPlayerTwo)
             {
-            case 0: audio->Play(GOKU); break;
-            case 1: case 3: audio->Play(GOHAN); break;
-            case 2: audio->Play(VEGETA); break;
+            case 0: audio->Play(GOKU); Sleep(1000); break;
+            case 1: case 3: audio->Play(GOHAN); Sleep(1000); break;
+            case 2: audio->Play(VEGETA); Sleep(1000); break;
             }
         }
     }
 
     if (allSelected) {
+        audio->Play(READYBATTLE);
+        Sleep(2000);
         SmashDragon::NextLevel<Level1>();
     }
     else

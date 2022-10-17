@@ -13,6 +13,7 @@
 #include "Audio.h"
 #include "Attack.h"
 #include <vector>
+#include "Engine.h"
 using namespace std;
 
 enum PLAYERSTATE { LEFT, RIGHT };
