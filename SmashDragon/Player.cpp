@@ -21,6 +21,9 @@
 
 Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(id), rebornDirection(rebornDirection)
 {
+	if (id == ONE) lookingDir == LEFT;
+	else lookingDir = RIGHT;
+
 	type = PLAYER;
 
 	Mixed* mixed = new Mixed();
@@ -28,19 +31,17 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 	mixed->Insert(new Rect(-15, -25, 15, 80));
 	mixed->Insert(new Rect(-30, -25, 30, 80));
 
-	attackRect = new Rect(-60, -10, 40, 5);
-	attackRightRect = new Rect(-40, -10, 60, 5);
+	attackRect = new Rect(-60, -10, 20, 5);
+	attackRightRect = new Rect(-20, -10, 60, 5);
 	currAttackRect = attackRect;
 
 	attackRight = new Attack();
 	attackLeft = new Attack();
 
-	attackRight->BBox(new Rect(-40, -10, 60, 5));
-	attackLeft->BBox(new Rect(-60, -10, 40, 5));
+	attackRight->BBox(new Rect(-20, -10, 60, 5));
+	attackLeft->BBox(new Rect(-60, -10, 20, 5));
 
 	BBox(mixed);
-
-	lookingDir = rebornDirection == RIGHT ? LEFT : RIGHT;
 
 	height = 160; width = 60;
 	prevX = x;  prevY = y;
@@ -180,11 +181,11 @@ void Player::PlatformCollision(Platform* platform)
 		{
 			velX = 0;
 
-			if (prevX + width / 2 < platform->X() - platform->width / 2)
+			if (x < platform->Width())
 			{
 				MoveTo(platform->X() - platform->width / 2 - width / 2 - 2, y);
 			}
-			else if (prevX - width / 2 > platform->X() + platform->width / 2)
+			else
 			{
 				MoveTo(platform->X() + platform->width / 2 + width / 2 + 2, y);
 			}
@@ -196,16 +197,6 @@ void Player::PlatformCollision(Platform* platform)
 				jumps = velX = 0;
 			}
 
-			if (SmashDragon::passLevel)
-			{
-				if (!lost)
-				{
-					lookingDir = LEFT;
-					character->anim->Delay(0.5f);
-					character->anim->Select(WINNEREND);
-					character->anim->NextFrame();
-				}
-			}
 
 			velY = 0;
 
@@ -251,17 +242,6 @@ void Player::TraversablePlatformCollision(Platform* platform)
 				if (!isDashing)
 				{
 					jumps = velX = 0;
-				}
-
-				if (SmashDragon::passLevel)
-				{
-					if (!lost)
-					{
-						lookingDir = LEFT;
-						character->anim->Delay(0.5f);
-						character->anim->Select(WINNEREND);
-						character->anim->NextFrame();
-					}
 				}
 
 				velY = 0;
@@ -319,10 +299,10 @@ void Player::PlayerCollision(Player* enemy)
 
 		if (!enemy->isDashing && attackCollision)
 		{
-	/*		LevelAnim* dashAnim = new LevelAnim(SmashDragon::hit, 0.100f, false);
-			dashAnim->MoveTo(x, y);
-			Level* level = (Level*)SmashDragon::level;
-			level->scene->Add(dashAnim, STATIC);*/
+			/*		LevelAnim* dashAnim = new LevelAnim(SmashDragon::hit, 0.100f, false);
+					dashAnim->MoveTo(x, y);
+					Level* level = (Level*)SmashDragon::level;
+					level->scene->Add(dashAnim, STATIC);*/
 
 
 			enemy->WhenHit(this);
@@ -332,16 +312,10 @@ void Player::PlayerCollision(Player* enemy)
 
 void Player::Reset()
 {
-	ResetAfterLevel();
-}
 
-void Player::ResetAfterLevel()
-{
-	lost = false;
 	lookingDir = RIGHT;
 	state = STILL;
 	velY = 100;
-	life = 5;
 	prevX = x;  prevY = y;
 	prevVelY = velY;
 	velX = 0;
@@ -361,7 +335,13 @@ void Player::ResetAfterLevel()
 	rebornTimer->Reset();
 	stopAfterHitTimer->Reset();
 	hitInvunerabilityTimer->Reset();
+}
 
+void Player::ResetAfterLevel()
+{
+	Reset();
+	lost = false;
+	life = 5;
 }
 
 // ---------------------------------------------------------------------------------
@@ -429,8 +409,8 @@ void Player::Update()
 
 		if (stoppedAfterHit)
 		{
-			velX = 0;
-			velY = 0;
+			velX = velX * 0.1;
+			velY = velY * 0.1;
 		}
 		else if (!isReborning)
 		{
@@ -466,18 +446,18 @@ void Player::Update()
 				{
 					if (window->KeyDown(mk.attack) && ctrlAttack && !isAttacking && attackDelayTimer->Elapsed(1.0f))
 					{
-							Mixed* geo = (Mixed*)BBox();
+						Mixed* geo = (Mixed*)BBox();
 
-							if (lookingDir == RIGHT)
-							{
-								geo->Insert(attackRightRect);
-								currAttackRect = attackRightRect;
-							}
-							else
-							{
-								geo->Insert(attackRect);
-								currAttackRect = attackRect;
-							}
+						if (lookingDir == RIGHT)
+						{
+							geo->Insert(attackRightRect);
+							currAttackRect = attackRightRect;
+						}
+						else
+						{
+							geo->Insert(attackRect);
+							currAttackRect = attackRect;
+						}
 
 						attackDelayTimer->Start();
 
@@ -526,7 +506,7 @@ void Player::Update()
 
 					if (window->KeyDown(mk.dash) && ctrlDash && dashingTimer->Elapsed() > 2.0f)
 					{
-			
+
 
 						ctrlDash = isDashing = true;
 
@@ -572,7 +552,7 @@ void Player::Update()
 		{
 			state = DASH;
 
-			if (dashingTimer->Elapsed() > 0.25f)
+			if (dashingTimer->Elapsed() > 0.4f)
 			{
 				isDashing = false;
 
@@ -601,8 +581,8 @@ void Player::Update()
 			{
 				isAttacking = false;
 
-					Mixed* geo = (Mixed*)BBox();
-					geo->Remove(currAttackRect);
+				Mixed* geo = (Mixed*)BBox();
+				geo->Remove(currAttackRect);
 			}
 		}
 
@@ -656,7 +636,8 @@ void Player::Update()
 			}
 			else
 			{
-				if (rebornDirection == LEFT)
+
+				if (id == TWO)
 				{
 					MoveTo(200.0f, 0);
 				}
