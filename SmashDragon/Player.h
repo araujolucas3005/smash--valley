@@ -42,6 +42,7 @@ private:
 	float width, height;
 
 	bool ctrlJump, ctrlAttack, ctrlDown, ctrlDash, stoppedAfterHit, invulnerableFromHit;
+	bool lost = false;
 
 	uint rebornDirection;
 

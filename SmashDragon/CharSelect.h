@@ -20,8 +20,8 @@ private:
     Animation* animP2 = nullptr;     // anima��o do menu
     Audio* audio = nullptr;
 
-    uint currIndexPlayerOne = 0;
-    uint currIndexPlayerTwo = 3;
+    int currIndexPlayerOne = 0;
+    int currIndexPlayerTwo = 0;
     int indexPlayerOne = -1;
     int indexPlayerTwo = -1;
 

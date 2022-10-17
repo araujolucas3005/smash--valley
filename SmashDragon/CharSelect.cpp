@@ -56,14 +56,34 @@ void CharSelect::Update()
     {
         allSelected = false;
 
-        if (window->KeyPress(SmashDragon::playerOne->mk.left) && indexPlayerTwo != currIndexPlayerOne - 1 && currIndexPlayerOne - 1 >= 0)
+        if (window->KeyPress(SmashDragon::playerOne->mk.left))
         {
-            currIndexPlayerOne--;
-            audio->Play(SELECTION);
+            if (indexPlayerTwo == currIndexPlayerOne - 1)
+            {
+                if (currIndexPlayerOne - 2 >= 0)
+                {
+                    currIndexPlayerOne -= 2;
+                }
+            }
+            else if (currIndexPlayerOne - 1 >= 0)
+            {
+                currIndexPlayerOne--;
+            }
         }
-        else if (window->KeyPress(SmashDragon::playerOne->mk.right) && indexPlayerTwo != currIndexPlayerOne + 1 && currIndexPlayerOne + 1 < 4)
+        else if (window->KeyPress(SmashDragon::playerOne->mk.right))
         {
-            currIndexPlayerOne++;
+            if (indexPlayerTwo == currIndexPlayerOne + 1)
+            {
+                if (currIndexPlayerOne + 2 < 4)
+                {
+                    currIndexPlayerOne += 2;
+                }
+            }
+            else if (currIndexPlayerOne + 1 < 4)
+            {
+                currIndexPlayerOne++;
+            }
+
             audio->Play(SELECTION);
         }
         else if (window->KeyPress(SmashDragon::playerOne->mk.attack))
@@ -99,14 +119,36 @@ void CharSelect::Update()
     {
         allSelected = false;
 
-        if (window->KeyPress(SmashDragon::playerTwo->mk.left) && indexPlayerOne != currIndexPlayerTwo - 1 && currIndexPlayerTwo - 1 >= 0)
+        if (window->KeyPress(SmashDragon::playerTwo->mk.left))
         {
-            currIndexPlayerTwo--;
+            if (indexPlayerOne == currIndexPlayerTwo - 1)
+            {
+                if (currIndexPlayerTwo - 2 >= 0)
+                {
+                    currIndexPlayerTwo -= 2;
+                }
+            }
+            else if (currIndexPlayerTwo - 1 >= 0)
+            {
+                currIndexPlayerTwo--;
+            }
+
             audio->Play(SELECTION);
         }
-        else if (window->KeyPress(SmashDragon::playerTwo->mk.right) && indexPlayerOne != currIndexPlayerTwo + 1 && currIndexPlayerTwo + 1 < 4)
+        else if (window->KeyPress(SmashDragon::playerTwo->mk.right))
         {
-            currIndexPlayerTwo++;
+            if (indexPlayerOne == currIndexPlayerTwo + 1)
+            {
+                if (currIndexPlayerTwo + 2 < 4)
+                {
+                    currIndexPlayerTwo += 2;
+                }
+            }
+            else if (currIndexPlayerTwo + 1 < 4)
+            {
+                currIndexPlayerTwo++;
+            }
+
             audio->Play(SELECTION);
         }
         else if (window->KeyPress(/*SmashDragon::playerTwo->mk.attack*/'P'))
@@ -141,9 +183,11 @@ void CharSelect::Update()
     if (allSelected) {
         SmashDragon::NextLevel<Level1>();
     }
-
-    animP1->NextFrame();
-    animP2->NextFrame();
+    else
+    {
+        animP1->NextFrame();
+        animP2->NextFrame();
+    }
 }
 
 // ------------------------------------------------------------------------------

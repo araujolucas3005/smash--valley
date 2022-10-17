@@ -27,3 +27,9 @@ Character::~Character()
 	delete anim;
 	delete animRight;
 }
+
+void Character::AddSec(uint type, uint* sec, uint secSize)
+{
+	anim->Add(type, sec, secSize);
+	animRight->Add(type, sec, secSize);
+}

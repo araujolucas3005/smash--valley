@@ -13,7 +13,7 @@ void Level1::Init()
 	//backg = new Sprite("Resources/Kamikaze.jpg");
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
-	Platform * platform = new Platform(PLATFORM);
+	Platform* platform = new Platform(PLATFORM);
 	platform->width = 800;
 	platform->height = 140;
 	platform->BBox(new Rect(-400, -70, 400, 70));
@@ -40,6 +40,8 @@ void Level1::Init()
 
 	SmashDragon::playerOne->MoveTo(window->CenterX() - 100, window->CenterY() - 100);
 	SmashDragon::playerTwo->MoveTo(window->CenterX() + 100, window->CenterY() - 100);
+
+	levelEndingTimer = new Timer();
 }
 
 // ------------------------------------------------------------------------------
@@ -53,11 +55,25 @@ void Level1::Update()
 	// atualiza��o da cena
 	scene->Update();
 	scene->CollisionDetection();
-	
-	if (SmashDragon::passLevel == true)
+
+	if (SmashDragon::passLevel)
 	{
-		SmashDragon::passLevel = false;
-		SmashDragon::NextLevel<Level2>();
+		if (ended)
+		{
+			if (levelEndingTimer->Elapsed(5.0f))
+			{
+				SmashDragon::passLevel = false;
+				SmashDragon::NextLevel<Level2>();
+			}
+		}
+		else
+		{
+			SmashDragon::playerOne->character->anim->Restart();
+			SmashDragon::playerTwo->character->anim->Restart();
+
+			levelEndingTimer->Reset();
+			ended = true;
+		}
 	}
 }
 

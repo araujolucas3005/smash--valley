@@ -1,6 +1,7 @@
 
 #include "Engine.h"
 #include "Level3.h"
+
 #include "EndGame.h"
 #include "SmashDragon.h"
 #include "GameTest.h"
@@ -26,6 +27,8 @@ void Level3::Init()
 
 	SmashDragon::playerOne->MoveTo(window->CenterX() - 250, window->CenterY() - 100);
 	SmashDragon::playerTwo->MoveTo(window->CenterX() + 250, window->CenterY() - 100);
+
+	levelEndingTimer = new Timer();
 }
 
 // ------------------------------------------------------------------------------
@@ -40,10 +43,24 @@ void Level3::Update()
 	scene->Update();
 	scene->CollisionDetection();
 
-	if (SmashDragon::passLevel == true)
+	if (SmashDragon::passLevel)
 	{
-		SmashDragon::passLevel = false;
-		SmashDragon::NextLevel<EndGame>();
+		if (ended)
+		{
+			if (levelEndingTimer->Elapsed(5.0f))
+			{
+				SmashDragon::passLevel = false;
+				SmashDragon::NextLevel<EndGame>();
+			}
+		}
+		else
+		{
+			SmashDragon::playerOne->character->anim->Restart();
+			SmashDragon::playerTwo->character->anim->Restart();
+
+			levelEndingTimer->Reset();
+			ended = true;
+		}
 	}
 }
 

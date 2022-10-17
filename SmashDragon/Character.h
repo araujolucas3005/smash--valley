@@ -17,6 +17,8 @@ public:
 
     Character(TileSet* tilesetLeft, TileSet* tilesetRight);
     ~Character();                         
+
+    void AddSec(uint type, uint* sec, uint secSize);
 };
 
 #endif

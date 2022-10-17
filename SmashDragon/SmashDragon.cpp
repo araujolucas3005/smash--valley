@@ -12,6 +12,9 @@ Game*		SmashDragon::level = nullptr;
 Player*		SmashDragon::playerOne = nullptr;
 Player*		SmashDragon::playerTwo = nullptr;
 Audio*		SmashDragon::audio = nullptr;
+TileSet*	SmashDragon::dash = nullptr;
+TileSet*	SmashDragon::jump = nullptr;
+TileSet*	SmashDragon::hit = nullptr;
 bool		SmashDragon::viewBBox = false;
 Character*	SmashDragon::characters[4] = { nullptr };
 Sprite*		SmashDragon::charactersSelectImg[4] = { nullptr };
@@ -30,14 +33,58 @@ void SmashDragon::Init()
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
 
+	gokuLeft = new TileSet("Resources/goku_sprite_sheet_l.png", 153, 153, 8, 112);
+	gokuRight = new TileSet("Resources/goku_sprite_sheet_r.png", 153, 153, 8, 112);
+
 	gohanLeft = new TileSet("Resources/gohan_spreadsheet.png", 172.877777, 159, 9, 117);
 	gohanRight = new TileSet("Resources/gohan_spreadsheet_r.png", 172.877777, 159, 9, 117);
 
-	kidGohanLeft = new TileSet("Resources/kid_gohan_sprite_sheet_l.png", 172, 144, 10, 140);
-	kidGohanRight = new TileSet("Resources/kid_gohan_sprite_sheet_r.png", 172, 144, 10, 140);
+	vegetaLeft = new TileSet("Resources/vegeta_spritesheet_l.png", 153, 150, 9, 126);
+	vegetaRight = new TileSet("Resources/vegeta_spritesheet_r.png", 153, 150, 9, 126);
 
-	characters[0] = new Character(gohanLeft, gohanRight);
+	kidGohanLeft = new TileSet("Resources/kid_gohan_sprite_sheet_l.png", 144, 172, 10, 140);
+	kidGohanRight = new TileSet("Resources/kid_gohan_sprite_sheet_r.png", 144, 172, 10, 140);
+
+	characters[0] = new Character(gokuLeft, gokuRight);
 	characters[1] = new Character(gohanLeft, gohanRight);
+	characters[2] = new Character(vegetaLeft, vegetaRight);
+	characters[3] = new Character(kidGohanLeft, kidGohanRight);
+
+	uint gseqStill[10] = { 0, 0, 1, 2, 3, 3, 2, 1, 0, 0 };
+	uint gseqAttack[5] = { 96, 97, 97, 98, 99 };
+	uint gseqHitTaken[4] = { 88, 87, 89, 90 };
+	uint gseqJump[6] = { 64, 65, 66 };
+	uint gseqJumpUp[3] = { 64, 65, 66 };
+	uint gseqJumpDown[3] = { 70, 70, 70 };
+	uint gwalk[2] = { 72, 73 };
+	uint gseqDash[6] = { 53 };
+	uint gseqWalkJump[1] = { 67 };
+	uint gseqMovingAttack[6] = { 48, 49, 50, 51, 52, 53 };
+	uint gwinnerEnd[6] = { 104, 104, 105, 105, 106, 106 };
+
+	characters[0]->AddSec(STILL, gseqStill, 10);
+	characters[0]->AddSec(HIT, gseqAttack, 5);
+	characters[0]->AddSec(HITTAKEN, gseqHitTaken, 4);
+	characters[0]->AddSec(JUMP, gseqJump, 1);
+	characters[0]->AddSec(WALKLEFT, gwalk, 2);
+	characters[0]->AddSec(DASH, gseqDash, 1);
+	characters[0]->AddSec(WALKJUMP, gseqWalkJump, 1);
+	characters[0]->AddSec(MOVINGATTACK, gseqMovingAttack, 6);
+	characters[0]->AddSec(WINNEREND, gwinnerEnd, 6);
+	characters[0]->AddSec(JUMPUP, gseqJumpUp, 3);
+	characters[0]->AddSec(JUMPDOWN, gseqJumpDown, 3);
+
+	//uint kidGohanSeqStill[10] = { 1, 1, 1, 2, 3, 3, 2, 1, 1, 1 };
+	//uint kidGohanSeqAttack[6] = { 66, 66, 67, 67, 68, 68 };
+	//uint kidGohanSeqHitTaken[2] = { 45 };
+	//uint kidGohanSeqJump[6] = { 65 };
+	//uint kidGohanSeqJumpUp[6] = { 82 };
+	//uint kidGohanSeqJumpDown[6] = { 87 };
+	//uint kidGohanSeqWalk[6] = { 92 };
+	//uint kidGohanSeqDash[6] = { 60 };
+	//uint kidGohanSeqWalkJump[1] = { 83 };
+	//uint kidGohanSeqMovingAttack[6] = { 66, 66, 66, 67, 67, 67 };
+	//uint kidGohanSeqWinnerEnd[6] = { 99, 100, 101, 102, 103, 104 };
 
 	uint seqStill[10] = { 54, 55, 56, 57, 58, 58, 57, 56, 55, 54 };
 	uint seqAttack[6] = { 18, 19, 20, 21, 22, 23 };
@@ -51,65 +98,66 @@ void SmashDragon::Init()
 	uint seqMovingAttack[6] = { 82, 82, 83, 83, 84, 84 };
 	uint winnerEnd[6] = { 99, 100, 101, 102, 103, 104 };
 
-	characters[0]->anim->Add(STILL, seqStill, 10);
-	characters[0]->anim->Add(HIT, seqAttack, 6);
-	characters[0]->anim->Add(HITTAKEN, seqHitTaken, 1);
-	characters[0]->anim->Add(JUMP, seqJump, 1);
-	characters[0]->anim->Add(WALKLEFT, walk, 2);
-	characters[0]->anim->Add(DASH, seqDash, 1);
-	characters[0]->anim->Add(WALKJUMP, seqWalkJump, 1);
-	characters[0]->anim->Add(MOVINGATTACK, seqMovingAttack, 6);
-	characters[0]->anim->Add(WINNEREND, seqMovingAttack, 6);
-	characters[0]->anim->Add(JUMPUP, seqJumpUp, 3);
-	characters[0]->anim->Add(JUMPDOWN, seqJumpDown, 3);
+	characters[1]->AddSec(STILL, seqStill, 10);
+	characters[1]->AddSec(HIT, seqAttack, 6);
+	characters[1]->AddSec(HITTAKEN, seqHitTaken, 1);
+	characters[1]->AddSec(JUMP, seqJump, 1);
+	characters[1]->AddSec(WALKLEFT, walk, 2);
+	characters[1]->AddSec(DASH, seqDash, 1);
+	characters[1]->AddSec(WALKJUMP, seqWalkJump, 1);
+	characters[1]->AddSec(MOVINGATTACK, seqMovingAttack, 6);
+	characters[1]->AddSec(WINNEREND, winnerEnd, 6);
+	characters[1]->AddSec(JUMPUP, seqJumpUp, 3);
+	characters[1]->AddSec(JUMPDOWN, seqJumpDown, 3);
 
-	characters[0]->animRight->Add(STILL, seqStill, 10);
-	characters[0]->animRight->Add(HIT, seqAttack, 6);
-	characters[0]->animRight->Add(HITTAKEN, seqHitTaken, 1);
-	characters[0]->animRight->Add(JUMP, seqJump, 1);
-	characters[0]->animRight->Add(WALKLEFT, walk, 2);
-	characters[0]->animRight->Add(DASH, seqDash, 1);
-	characters[0]->animRight->Add(WALKJUMP, seqWalkJump, 1);
-	characters[0]->animRight->Add(MOVINGATTACK, seqMovingAttack, 6);
-	characters[0]->animRight->Add(WINNEREND, seqMovingAttack, 6);
-	characters[0]->animRight->Add(JUMPUP, seqJumpUp, 3);
-	characters[0]->animRight->Add(JUMPDOWN, seqJumpDown, 3);
+	uint vseqStill[10] = { 0, 0, 1, 2, 3, 3, 2, 1, 0, 0 };
+	uint vseqAttack[6] = { 90, 91, 92, 92, 93, 94 };
+	uint vseqHitTaken[4] = { 36, 37, 38, 39 };
+	uint vseqJump[6] = { 64, 65, 66 };
+	uint vseqJumpUp[3] = { 72, 73, 74 };
+	uint vseqJumpDown[3] = { 77, 78, 78 };
+	uint vwalk[2] = { 81, 82 };
+	uint vseqDash[6] = { 54 };
+	uint vseqWalkJump[1] = { 67 };
+	uint vseqMovingAttack[6] = { 54, 55, 56, 57, 58, 59 };
+	uint vwinnerEnd[9] = { 117, 118, 119, 120, 121, 122, 123, 124, 125 };
 
-	uint kidGohanSeqStill[10] = { 1, 1, 1, 2, 3, 3, 2, 1, 1, 1 };
-	uint kidGohanSeqAttack[6] = { 66, 66, 67, 67, 68, 68 };
-	uint kidGohanSeqHitTaken[2] = { 45 };
-	uint kidGohanSeqJump[6] = { 65 };
-	uint kidGohanSeqJumpUp[6] = { 82 };
-	uint kidGohanSeqJumpDown[6] = { 87 };
-	uint kidGohanSeqWalk[6] = { 92 };
-	uint kidGohanSeqDash[6] = { 60 };
-	uint kidGohanSeqWalkJump[1] = { 83 };
-	uint kidGohanSeqMovingAttack[6] = { 66, 66, 66, 67, 67, 67 };
-	//uint kidGohanSeqWinnerEnd[6] = { 99, 100, 101, 102, 103, 104 };
+	characters[2]->AddSec(STILL, vseqStill, 10);
+	characters[2]->AddSec(HIT, vseqAttack, 6);
+	characters[2]->AddSec(HITTAKEN, vseqHitTaken, 1);
+	characters[2]->AddSec(JUMP, vseqJump, 1);
+	characters[2]->AddSec(WALKLEFT, vwalk, 2);
+	characters[2]->AddSec(DASH, vseqDash, 1);
+	characters[2]->AddSec(WALKJUMP, vseqWalkJump, 1);
+	characters[2]->AddSec(MOVINGATTACK, vseqMovingAttack, 6);
+	characters[2]->AddSec(WINNEREND, vwinnerEnd, 9);
+	characters[2]->AddSec(JUMPUP, vseqJumpUp, 3);
+	characters[2]->AddSec(JUMPDOWN, vseqJumpDown, 3);
 
-	characters[1]->anim->Add(STILL, seqStill, 10);
-	characters[1]->anim->Add(HIT, seqAttack, 6);
-	characters[1]->anim->Add(HITTAKEN, seqHitTaken, 1);
-	characters[1]->anim->Add(JUMP, seqJump, 1);
-	characters[1]->anim->Add(WALKLEFT, walk, 2);
-	characters[1]->anim->Add(DASH, seqDash, 1);
-	characters[1]->anim->Add(WALKJUMP, seqWalkJump, 1);
-	characters[1]->anim->Add(MOVINGATTACK, seqMovingAttack, 6);
-	characters[1]->anim->Add(WINNEREND, seqMovingAttack, 6);
-	characters[1]->anim->Add(JUMPUP, seqJumpUp, 3);
-	characters[1]->anim->Add(JUMPDOWN, seqJumpDown, 3);
+	uint kgseqStill[10] = { 0, 0, 1, 2, 3, 3, 2, 1, 0, 0 };
+	uint kgseqAttack[6] = { 120, 121, 122, 123, 124, 125 };
+	uint kgseqHitTaken[4] = { 40, 41, 42, 43 };
+	uint kgseqJump[6] = { 64, 65, 66 };
+	uint kgseqJumpUp[3] = { 80, 81, 82 };
+	uint kgseqJumpDown[3] = { 83, 84, 85 };
+	uint kgwalk[2] = { 90, 91 };
+	uint kgseqDash[6] = { 62 };
+	uint kgseqWalkJump[1] = { 67 };
+	uint kgseqMovingAttack[6] = { 62, 62, 63, 63, 64, 64 };
+	uint kgwinnerEnd[10] = { 130, 131, 132, 133, 134, 135, 136, 137, 138, 139 };
 
-	characters[1]->animRight->Add(STILL, seqStill, 10);
-	characters[1]->animRight->Add(HIT, seqAttack, 6);
-	characters[1]->animRight->Add(HITTAKEN, seqHitTaken, 1);
-	characters[1]->animRight->Add(JUMP, seqJump, 1);
-	characters[1]->animRight->Add(WALKLEFT, walk, 2);
-	characters[1]->animRight->Add(DASH, seqDash, 1);
-	characters[1]->animRight->Add(WALKJUMP, seqWalkJump, 1);
-	characters[1]->animRight->Add(MOVINGATTACK, seqMovingAttack, 6);
-	characters[1]->animRight->Add(WINNEREND, seqMovingAttack, 6);
-	characters[1]->animRight->Add(JUMPUP, seqJumpUp, 3);
-	characters[1]->animRight->Add(JUMPDOWN, seqJumpDown, 3);
+	characters[3]->AddSec(STILL, kgseqStill, 10);
+	characters[3]->AddSec(HIT, kgseqAttack, 6);
+	characters[3]->AddSec(HITTAKEN, kgseqHitTaken, 1);
+	characters[3]->AddSec(JUMP, kgseqJump, 1);
+	characters[3]->AddSec(WALKLEFT, kgwalk, 2);
+	characters[3]->AddSec(DASH, kgseqDash, 1);
+	characters[3]->AddSec(WALKJUMP, kgseqWalkJump, 1);
+	characters[3]->AddSec(MOVINGATTACK, kgseqMovingAttack, 6);
+	characters[3]->AddSec(WINNEREND, kgwinnerEnd, 10);
+	characters[3]->AddSec(JUMPUP, kgseqJumpUp, 3);
+	characters[3]->AddSec(JUMPDOWN, kgseqJumpDown, 3);
+
 
 	// GOHAN PEQUENO
 	//characters[1]->anim->Add(STILL, kidGohanSeqStill, 10);
@@ -160,6 +208,10 @@ void SmashDragon::Init()
 	playerOne = new Player({ 'W', 'A', 'S', 'D', VK_SPACE, 'K', VK_SHIFT }, ONE, LEFT);
 	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1, VK_NUMPAD2 }, TWO, RIGHT);
 
+	hit = new TileSet("Resources/strong_hit_sprite_small.png", 1, 4);
+	jump = new TileSet("Resources/jump_straight_sprite.png", 1, 6);
+	dash = new TileSet("Resources/dash_sprite_small.png", 1, 6);
+
 	level = new Home();
 	level->Init();
 }
@@ -197,6 +249,15 @@ void SmashDragon::Finalize()
 	delete bold;
 	delete gohanLeft;
 	delete gohanRight;
+	delete kidGohanLeft;
+	delete kidGohanRight;
+	delete gokuLeft;
+	delete gokuRight;
+	delete vegetaLeft;
+	delete vegetaRight;
+	delete hit;
+	delete dash;
+	delete jump;
 
 	for (auto character : characters)
 		delete character;

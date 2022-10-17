@@ -40,6 +40,8 @@ void Level2::Init()
 
 	SmashDragon::playerOne->MoveTo(250, window->CenterY() - 100);
 	SmashDragon::playerTwo->MoveTo(window->Width() - 250, window->CenterY() - 100);
+
+	levelEndingTimer = new Timer();
 }
 
 // ------------------------------------------------------------------------------
@@ -54,10 +56,24 @@ void Level2::Update()
 	scene->Update();
 	scene->CollisionDetection();
 
-	if (SmashDragon::passLevel == true)
+	if (SmashDragon::passLevel)
 	{
-		SmashDragon::passLevel = false;
-		SmashDragon::NextLevel<Level3>();
+		if (ended)
+		{
+			if (levelEndingTimer->Elapsed(5.0f))
+			{
+				SmashDragon::passLevel = false;
+				SmashDragon::NextLevel<Level3>();
+			}
+		}
+		else
+		{
+			SmashDragon::playerOne->character->anim->Restart();
+			SmashDragon::playerTwo->character->anim->Restart();
+
+			levelEndingTimer->Reset();
+			ended = true;
+		}
 	}
 }
 

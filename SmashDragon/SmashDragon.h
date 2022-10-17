@@ -11,7 +11,7 @@
 #include "Resources.h"
 #include "Font.h"
 
-enum Sounds { MENU, MUSIC, TRANSITION };
+enum Sounds { MENU, MUSIC, TRANSITION, GET_READY_FOR_BATTLE };
 
 class SmashDragon : public Game
 {
@@ -28,6 +28,16 @@ public:
 	static int playerOnePoints;
 	static int playerTwoPoints;
 	static bool passLevel;
+
+	static TileSet* hit;
+	static TileSet* dash;
+	static TileSet* jump;
+
+	TileSet* gokuRight;
+	TileSet* gokuLeft;
+
+	TileSet* vegetaRight;
+	TileSet* vegetaLeft;
 
 	TileSet* gohanLeft;
 	TileSet* gohanRight;
