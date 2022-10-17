@@ -151,6 +151,8 @@ void Player::WhenHit(Player* enemy)
 
 	invulnerableFromHit = true;
 	hitInvunerabilityTimer->Start();
+
+	lookingDir = enemy->lookingDir == RIGHT ? LEFT : RIGHT;
 }
 
 void Player::PlatformCollision(Platform* platform)
@@ -486,6 +488,9 @@ void Player::Update()
 						isAttacking = true;
 
 						attackTimer->Start();
+
+						character->anim->Restart();
+						character->animRight->Restart();
 					}
 					else if (window->KeyUp(mk.attack))
 					{
@@ -670,7 +675,7 @@ void Player::Update()
 			{
 				if (state == STILL && character->animRight->Inactive())
 				{
-					character->animRight->Frame(0);
+					character->animRight->Restart();
 				}
 				else
 				{
@@ -684,7 +689,7 @@ void Player::Update()
 
 				if (state == STILL && character->anim->Inactive())
 				{
-					character->anim->Frame(0);
+					character->anim->Restart();
 				}
 				else
 				{

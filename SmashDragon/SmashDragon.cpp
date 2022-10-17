@@ -51,7 +51,7 @@ void SmashDragon::Init()
 	characters[3] = new Character(kidGohanLeft, kidGohanRight);
 
 	uint gseqStill[10] = { 0, 0, 1, 2, 3, 3, 2, 1, 0, 0 };
-	uint gseqAttack[12] = { 96,96,96, 97,97,97, 98,98,98, 99,99,99 };
+	uint gseqAttack[6] = { 96, 96, 96,  97, 97, 97 };
 	uint gseqHitTaken[4] = { 88, 87, 89, 90 };
 	uint gseqJump[6] = { 64, 65, 66 };
 	uint gseqJumpUp[3] = { 70, 70, 70 };
@@ -63,7 +63,7 @@ void SmashDragon::Init()
 	uint gwinnerEnd[6] = { 104, 104, 105, 105, 106, 106 };
 
 	characters[0]->AddSec(STILL, gseqStill, 10);
-	characters[0]->AddSec(HIT, gseqAttack, 12);
+	characters[0]->AddSec(HIT, gseqAttack, 6);
 	characters[0]->AddSec(HITTAKEN, gseqHitTaken, 4);
 	characters[0]->AddSec(JUMP, gseqJump, 1);
 	characters[0]->AddSec(WALKLEFT, gwalk, 2);
@@ -135,7 +135,7 @@ void SmashDragon::Init()
 	characters[2]->AddSec(JUMPDOWN, vseqJumpDown, 3);
 
 	uint kgseqStill[10] = { 0, 0, 1, 2, 3, 3, 2, 1, 0, 0 };
-	uint kgseqAttack[6] = { 120, 121, 122, 123, 124, 125 };
+	uint kgseqAttack[6] = { 120, 121, 122,122, 123, 124 };
 	uint kgseqHitTaken[4] = { 40, 41, 42, 43 };
 	uint kgseqJump[6] = { 64, 65, 66 };
 	uint kgseqJumpUp[3] = { 80, 81, 82 };
@@ -143,7 +143,7 @@ void SmashDragon::Init()
 	uint kgwalk[2] = { 90, 91 };
 	uint kgseqDash[6] = { 62 };
 	uint kgseqWalkJump[1] = { 67 };
-	uint kgseqMovingAttack[6] = { 62, 62, 63, 63, 64, 64 };
+	uint kgseqMovingAttack[6] = { 60, 61, 62, 63, 64, 65 };
 	uint kgwinnerEnd[10] = { 130, 131, 132, 133, 134, 135, 136, 137, 138, 139 };
 
 	characters[3]->AddSec(STILL, kgseqStill, 10);
