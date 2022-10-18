@@ -92,7 +92,7 @@ Player::~Player()
 	delete jumpEffect;
 	delete jumpAnim;
 	delete hitAnimR;
-	delete hitAnimR;
+	delete hitAnimL;
 	delete hitEffectR;
 	delete hitEffectL;
 }
@@ -199,18 +199,11 @@ void Player::PlatformCollision(Platform* platform)
 	{
 		bool jump = false;
 
-		if (window->KeyDown(mk.jump))
-		{
-			MoveTo(x, y - 1.0f);
-
-			jump = true;
-		}
-
-		if (platform->Y() + platform->height / 2 < prevY - height / 2)
+		if (platform->Y() + platform->height / 2 < prevY - 20)
 		{
 			velY = 0;
 
-			MoveTo(x, platform->Y() + platform->height / 2 + height / 2 + 2);
+			MoveTo(x, prevY);
 		}
 		else if (platform->Y() - platform->height / 2 < prevY + height / 2)
 		{
@@ -225,7 +218,7 @@ void Player::PlatformCollision(Platform* platform)
 				MoveTo(platform->X() + platform->width / 2 + width / 2 + 2, y);
 			}
 		}
-		else if (!jump)
+		else
 		{
 			if (!isDashing)
 			{
@@ -255,14 +248,6 @@ void Player::TraversablePlatformCollision(Platform* platform)
 
 		if (!isFlyingFromHit)
 		{
-			bool jump = false;
-
-			if (window->KeyDown(mk.jump))
-			{
-				MoveTo(x, y - 1.0f);
-
-				jump = true;
-			}
 
 			if (window->KeyDown(mk.down))
 			{
@@ -272,7 +257,7 @@ void Player::TraversablePlatformCollision(Platform* platform)
 			{
 				MoveTo(x, y - 1.0f);
 			}
-			else if (!jump)
+			else
 			{
 				if (!isDashing)
 				{
@@ -348,7 +333,9 @@ void Player::PlayerCollision(Player* enemy)
 void Player::Reset()
 {
 
-	lookingDir = RIGHT;
+	if (id == ONE) lookingDir = RIGHT;
+	else lookingDir = LEFT;
+
 	state = STILL;
 	velY = 100;
 	prevX = x;  prevY = y;
@@ -413,7 +400,7 @@ void Player::Update()
 		if (!lost)
 		{
 			lookingDir = LEFT;
-			character->anim->Delay(0.5f);
+			character->anim->Delay(0.1f);
 			character->anim->Select(WINNEREND);
 			character->anim->NextFrame();
 		}
@@ -464,6 +451,8 @@ void Player::Update()
 			{
 				if (window->KeyDown(mk.jump) && ctrlJump && jumps < 4)
 				{
+					MoveTo(x, y - 1.0f);
+
 					velY = -500;
 
 					gravity = 1;
@@ -489,7 +478,7 @@ void Player::Update()
 					{
 						Mixed* geo = (Mixed*)BBox();
 
-						if (lookingDir == RIGHT)
+						/*if (lookingDir == RIGHT)
 						{
 							geo->Insert(attackRightRect);
 							currAttackRect = attackRightRect;
@@ -498,7 +487,7 @@ void Player::Update()
 						{
 							geo->Insert(attackRect);
 							currAttackRect = attackRect;
-						}
+						}*/
 
 						attackDelayTimer->Start();
 
@@ -622,8 +611,8 @@ void Player::Update()
 			{
 				isAttacking = false;
 
-				Mixed* geo = (Mixed*)BBox();
-				geo->Remove(currAttackRect);
+			/*	Mixed* geo = (Mixed*)BBox();
+				geo->Remove(currAttackRect);*/
 			}
 		}
 
@@ -678,12 +667,14 @@ void Player::Update()
 			else
 			{
 
-				if (id == TWO)
+				if (id == ONE)
 				{
+					lookingDir = RIGHT;
 					MoveTo(200.0f, 0);
 				}
 				else
 				{
+					lookingDir = LEFT;
 					MoveTo(window->Width() - 200.0f, 0);
 				}
 			}

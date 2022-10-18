@@ -15,9 +15,9 @@ void Level1::Init()
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
 	Platform* platform = new Platform(PLATFORM);
 	platform->width = 800;
-	platform->height = 140;
-	platform->BBox(new Rect(-400, -70, 400, 70));
-	platform->MoveTo(window->CenterX(), 500);
+	platform->height = 160;
+	platform->BBox(new Rect(-400, -80, 400, 80));
+	platform->MoveTo(window->CenterX(), 515);
 
 	Platform* upPlatform1 = new Platform(TRAVERSABLE_PLATFORM);
 	upPlatform1->width = 250;
@@ -60,7 +60,7 @@ void Level1::Update()
 	{
 		if (ended)
 		{
-			if (levelEndingTimer->Elapsed(5.0f))
+			if (levelEndingTimer->Elapsed(3.0f))
 			{
 				SmashDragon::passLevel = false;
 				SmashDragon::NextLevel<Level2>();
@@ -82,7 +82,7 @@ void Level1::Update()
 void Level1::Draw()
 {
 	// desenha pano de fundo
-	backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+	backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, 1.0f, 0.0f, {1, 1, 1, 0.8});
 
 	scene->Draw();
 

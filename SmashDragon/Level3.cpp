@@ -47,7 +47,7 @@ void Level3::Update()
 	{
 		if (ended)
 		{
-			if (levelEndingTimer->Elapsed(5.0f))
+			if (levelEndingTimer->Elapsed(3.0f))
 			{
 				SmashDragon::passLevel = false;
 				SmashDragon::NextLevel<EndGame>();
