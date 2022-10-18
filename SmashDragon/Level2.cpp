@@ -10,7 +10,7 @@
 void Level2::Init()
 {
 	// carrega pain�is e pano de fundo
-	//backg = new Sprite("Resources/Kamikaze.jpg");
+	backg = new Sprite("Resources/Stage2.png");
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
 	Platform* platform1 = new Platform(TRAVERSABLE_PLATFORM);
@@ -81,8 +81,8 @@ void Level2::Update()
 
 void Level2::Draw()
 {
-	// desenha pano de fundo
-	//backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, bgScale);
+	// desenha plano de fundo
+	backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, 1.0f, 0.0f, { 1, 1, 1, 0.8 });
 
 	SmashDragon::playerOne->character->charImg->Draw(50, 50, Layer::FRONT, 0.15f);
 	SmashDragon::playerTwo->character->charImg->Draw(window->Width() - 50, 50, Layer::FRONT, 0.15f);

@@ -10,7 +10,7 @@ void Home::Init()
     scene = new Scene();
 
     backg = new Sprite("Resources/Home/fundo.png");
-    instructions = new Sprite("Resources/Home/fundo.png");
+    instructions = new Sprite("Resources/Home/tela_controles.png");
     front = new Sprite("Resources/Home/frente.png");
     xF = xB = window->CenterX();
 
@@ -89,6 +89,9 @@ void Home::Update()
 
 void Home::Draw()
 {
+    if (showInstructions)
+        instructions->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
+
     backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
     front->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
 
@@ -107,8 +110,7 @@ void Home::Draw()
     if (xF + frontCloudsImage->Width() / 2.0f < 0)
         xF += frontCloudsImage->Width();
 
-    if (showInstructions)
-        instructions->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
+    
 
     scene->Draw();
 }

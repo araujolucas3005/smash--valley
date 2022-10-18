@@ -7,6 +7,9 @@
 #include "Animation.h"
 #include "Font.h"
 
+enum { VEGETA, GOKU, GOHAN, VICTORY};
+
+
 class EndGame : public Game
 {
 private:
@@ -15,7 +18,7 @@ private:
     Sprite* vegeta = nullptr;
     Sprite* gohan = nullptr;
     Sprite* kidGohan = nullptr;
-
+    Audio* audio = nullptr;
     int winner;
 
 public:

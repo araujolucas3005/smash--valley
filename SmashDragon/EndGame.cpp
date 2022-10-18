@@ -13,10 +13,23 @@ void EndGame::Init()
     gohan = new Sprite("Resources/EndGame/gohan_wins.png");
     kidGohan = new Sprite("Resources/EndGame/kid_gohan_wins.png");
 
+    audio = new Audio();
+    audio->Add(GOKU, "Resources/EndGame/goku_win.wav");
+    audio->Add(VEGETA, "Resources/EndGame/vegeta_win.wav");
+    audio->Add(GOHAN, "Resources/EndGame/gohan_win.wav");
+    audio->Add(VICTORY,"Resources/EndGame/victory.wav");
+
     if (SmashDragon::playerOnePoints > SmashDragon::playerTwoPoints)
         winner = SmashDragon::playerOne->character->index;
     else
         winner = SmashDragon::playerTwo->character->index;
+
+    switch (winner)
+    {
+    case 0: audio->Play(GOKU); break;
+    case 1: case 3: audio->Play(GOHAN); break;
+    case 2: audio->Play(VEGETA); break;
+    }
 }
 
 // ------------------------------------------------------------------------------
@@ -27,8 +40,8 @@ void EndGame::Update()
     if (window->KeyPress(VK_ESCAPE))
         window->Close();
 
-    // se a tecla ENTER for pressionada
-    if (window->KeyPress(VK_RETURN))
+    // se a tecla SPACE for pressionada
+    if (window->KeyPress(VK_SPACE))
     {
         /*   SmashDragon::audio->Stop(MENU);*/
         window->HideCursor(false);
@@ -39,6 +52,7 @@ void EndGame::Update()
     {
         /*anim->NextFrame();*/
     }
+
 }
 
 // ------------------------------------------------------------------------------
@@ -54,6 +68,8 @@ void EndGame::Draw()
     case 2: vegeta->Draw(window->CenterX(), window->CenterY(), Layer::FRONT); break;
     case 3: kidGohan->Draw(window->CenterX(), window->CenterY(), Layer::FRONT); break;
     }
+    
+    
 }
 
 // ------------------------------------------------------------------------------
