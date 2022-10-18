@@ -8,7 +8,7 @@
 void EndGame::Init()
 {
     tileset = new TileSet("Resources/EndGame/background sprite sheet.png", 1200, 640, 4, 4);
-    animation = new Animation(tileset, 0.5f, true);
+    animation = new Animation(tileset, 0.1f, true);
     vegeta = new Sprite("Resources/EndGame/vegeta_wins.png");
     goku = new Sprite("Resources/EndGame/goku_wins.png");
     gohan = new Sprite("Resources/EndGame/gohan_wins.png");
