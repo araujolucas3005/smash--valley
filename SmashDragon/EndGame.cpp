@@ -7,11 +7,13 @@
 
 void EndGame::Init()
 {
-    backg = new Sprite("Resources/EndGame/background sprite sheet.png");
+    tileset = new TileSet("Resources/EndGame/background sprite sheet.png", 1200, 640, 4, 4);
+    animation = new Animation(tileset, 0.5f, true);
     vegeta = new Sprite("Resources/EndGame/vegeta_wins.png");
     goku = new Sprite("Resources/EndGame/goku_wins.png");
     gohan = new Sprite("Resources/EndGame/gohan_wins.png");
     kidGohan = new Sprite("Resources/EndGame/kid_gohan_wins.png");
+    
 
     audio = new Audio();
     audio->Add(GOKU, "Resources/EndGame/goku_win.wav");
@@ -52,14 +54,15 @@ void EndGame::Update()
     {
         /*anim->NextFrame();*/
     }
-
+    
+    animation->NextFrame();
 }
 
 // ------------------------------------------------------------------------------
 
 void EndGame::Draw()
 {
-    backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+    animation->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
 
     switch (winner)
     {
@@ -82,7 +85,6 @@ void EndGame::Finalize()
     SmashDragon::playerOnePoints = 3;
     SmashDragon::playerTwoPoints = 3;
 
-    delete backg;
     delete goku;
     delete vegeta;
     delete gohan;

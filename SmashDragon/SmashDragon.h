@@ -31,6 +31,7 @@ public:
 	static TileSet* hit;
 	static TileSet* dash;
 	static TileSet* jump;
+	static Sprite* dragonballs[5];
 
 	TileSet* gokuRight;
 	TileSet* gokuLeft;

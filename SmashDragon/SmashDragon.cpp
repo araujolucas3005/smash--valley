@@ -18,6 +18,7 @@ TileSet*	SmashDragon::hit = nullptr;
 bool		SmashDragon::viewBBox = false;
 Character*	SmashDragon::characters[4] = { nullptr };
 Sprite*		SmashDragon::charactersSelectImg[4] = { nullptr };
+Sprite*		SmashDragon::dragonballs[5] = { nullptr };
 int			SmashDragon::playerOnePoints = 3;
 int			SmashDragon::playerTwoPoints = 3;
 bool		SmashDragon::passLevel = false;
@@ -32,6 +33,12 @@ void SmashDragon::Init()
 	audio->Add(MENU, "Resources/Home/opening_song.wav");
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
+
+	dragonballs[0] = new Sprite("Resources/db1.png");
+	dragonballs[1] = new Sprite("Resources/db2.png");
+	dragonballs[2] = new Sprite("Resources/db3.png");
+	dragonballs[3] = new Sprite("Resources/db4.png");
+	dragonballs[4] = new Sprite("Resources/db5.png");
 
 	charactersSelectImg[0] = new Sprite("Resources/CharSelection/goku.png");
 	charactersSelectImg[1] = new Sprite("Resources/CharSelection/gohan.png");
@@ -275,6 +282,9 @@ void SmashDragon::Finalize()
 
 	for (auto charImg : charactersSelectImg)
 		delete charImg;
+
+	for (auto dragonball : dragonballs)
+		delete dragonball;
 }
 
 int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)

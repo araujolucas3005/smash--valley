@@ -84,13 +84,26 @@ void Level2::Draw()
 	// desenha plano de fundo
 	backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, 1.0f, 0.0f, { 1, 1, 1, 0.8 });
 
-	SmashDragon::playerOne->character->charImg->Draw(50, 50, Layer::FRONT, 0.15f);
-	SmashDragon::playerTwo->character->charImg->Draw(window->Width() - 50, 50, Layer::FRONT, 0.15f);
-	SmashDragon::bold->Draw(30, 30, (std::to_string(SmashDragon::playerOne->life)).c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
-	SmashDragon::bold->Draw(window->Width() + 2, 30, (std::to_string(SmashDragon::playerTwo->life)).c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
+	float gap = 0;
+	for (int i = 0; i < SmashDragon::playerOne->life; i++)
+	{
+		SmashDragon::dragonballs[i]->Draw(25.0f + gap, 25.0f, Layer::FRONT);
+		gap += 35;
+	}
 
-	SmashDragon::bold->Draw(110, 70, (std::to_string(int((SmashDragon::playerOne->hits - 2) * 12)) + "%").c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
-	SmashDragon::bold->Draw(window->Width() - 90, 70, (std::to_string(int((SmashDragon::playerTwo->hits - 2) * 12)) + "%").c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
+	gap = 0;
+	for (int i = 0; i < SmashDragon::playerTwo->life; i++)
+	{
+		SmashDragon::dragonballs[i]->Draw(window->Width() - 25 - gap, 25.0f, Layer::FRONT);
+		gap += 35;
+	}
+
+	SmashDragon::playerOne->character->charImg->Draw(50, 75, Layer::FRONT, 0.15f);
+	SmashDragon::playerTwo->character->charImg->Draw(window->Width() - 50, 75, Layer::FRONT, 0.15f);
+	SmashDragon::bold->Draw(window->Width() + 2, 115, (std::to_string(SmashDragon::playerTwo->life)).c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
+
+	SmashDragon::bold->Draw(110, 95, (std::to_string(int((SmashDragon::playerOne->hits - 2) * 12)) + "%").c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
+	SmashDragon::bold->Draw(window->Width() - 90, 95, (std::to_string(int((SmashDragon::playerTwo->hits - 2) * 12)) + "%").c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
 
 	scene->Draw();
 

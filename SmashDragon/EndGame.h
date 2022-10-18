@@ -13,12 +13,14 @@ enum { VEGETA, GOKU, GOHAN, VICTORY};
 class EndGame : public Game
 {
 private:
-    Sprite* backg = nullptr;       // pano de fundo
     Sprite* goku = nullptr;
     Sprite* vegeta = nullptr;
     Sprite* gohan = nullptr;
     Sprite* kidGohan = nullptr;
     Audio* audio = nullptr;
+    TileSet* tileset = nullptr;
+    Animation* animation = nullptr;
+
     int winner;
 
 public:
