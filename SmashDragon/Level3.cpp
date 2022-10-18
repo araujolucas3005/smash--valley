@@ -11,7 +11,7 @@
 void Level3::Init()
 {
 	// carrega pain�is e pano de fundo
-	//backg = new Sprite("Resources/Kamikaze.jpg");
+	backg = new Sprite("Resources/Stage3.png");
 	audio = new Audio();
 	audio->Add(L3THEME, "Resources/Stage3Theme.wav");
 	audio->Play(L3THEME);
@@ -73,7 +73,7 @@ void Level3::Update()
 void Level3::Draw()
 {
 	// desenha pano de fundo
-	//backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, bgScale);
+	backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, 1.0f, 0.0f, { 1, 1, 1, 0.8 });
 
 	float gap = 0;
 	for (int i = 0; i < SmashDragon::playerOne->life; i++)
