@@ -186,7 +186,6 @@ void CharSelect::Update()
     }
 
     if (allSelected) {
-        audio->Stop(SONG);
         audio->Play(READYBATTLE);
         Sleep(2000);
         SmashDragon::playerOne->character->index = indexPlayerOne;

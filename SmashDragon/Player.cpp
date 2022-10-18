@@ -475,7 +475,7 @@ void Player::Update()
 
 					ctrlJump = false;
 
-					SmashDragon::audio->Play(JUMP, false);
+					SmashDragon::audio->Play(JUMPAUDIO, false);
 
 					if (jumpAnim->Inactive())
 						jumpAnim->Restart();

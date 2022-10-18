@@ -31,10 +31,13 @@ void SmashDragon::Init()
 	//ADICIONAR TODOS OS AUDIOS DO JOGO
 	audio = new Audio();
 	audio->Add(MENU, "Resources/Home/opening_song.wav");
-	audio->Add(JUMP, "Resources/Home/jump.wav");
-	audio->Add(OUTOFSCREEN, "Resources/Home/saiudatela.wav");
-	audio->Add(PUNCH1, "Resources/Home/punch1.wav");
-	audio->Add(PUNCH2, "Resources/Home/punch2.wav");
+	audio->Add(JUMPAUDIO, "Resources/jump.wav", 4);
+	audio->Add(OUTOFSCREEN, "Resources/saiudatela.wav");
+	audio->Add(PUNCH1, "Resources/punch1.wav");
+	audio->Add(PUNCH2, "Resources/punch2.wav");
+	audio->Add(L1THEME, "Resources/Stage1Theme.wav");
+	audio->Add(L2THEME, "Resources/Stage2Theme.wav");
+	audio->Add(L3THEME, "Resources/Stage3Theme.wav");
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
 
