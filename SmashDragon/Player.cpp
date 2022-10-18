@@ -51,14 +51,14 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 	ctrlJump = ctrlAttack = ctrlDown = ctrlDash = true;
 	isAttacking = isFlyingFromHit = isDashing = stoppedAfterHit = invulnerableFromHit = isReborning = false;
 
-	jumpEffect = new TileSet("Resources/jump_straight_sprite.png", 80, 80, 6, 6);
+	jumpEffect = new TileSet("Resources/jump_straight_sprite.png", 100, 100, 6, 6);
 	jumpAnim = new Animation(jumpEffect, 0.0180f, false);
 
 	hitEffectR = new TileSet("Resources/strong_hit_sprite_small_r.png", 240, 240, 4, 4);
-	hitAnimR = new Animation(hitEffectR, 0.0180f, false);
+	hitAnimR = new Animation(hitEffectR, 0.0120f, false);
 
 	hitEffectL = new TileSet("Resources/strong_hit_sprite_small_l.png", 240, 240, 4, 4);
-	hitAnimL = new Animation(hitEffectL, 0.0180f, false);
+	hitAnimL = new Animation(hitEffectL, 0.0120f, false);
 	uint seq[] = { 3, 2, 1, 0 };
 	hitAnimL->Add(1, seq, 4);
 	hitAnimL->Select(1);

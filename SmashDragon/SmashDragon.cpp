@@ -23,7 +23,7 @@ int			SmashDragon::playerOnePoints = 3;
 int			SmashDragon::playerTwoPoints = 3;
 bool		SmashDragon::passLevel = false;
 Font*		SmashDragon::bold = nullptr;
-
+int			SmashDragon::round = 1;
 // ------------------------------------------------------------------------------
 
 void SmashDragon::Init()

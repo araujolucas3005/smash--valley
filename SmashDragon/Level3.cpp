@@ -50,6 +50,7 @@ void Level3::Update()
 			if (levelEndingTimer->Elapsed(3.0f))
 			{
 				SmashDragon::passLevel = false;
+				SmashDragon::round = 1;
 				SmashDragon::NextLevel<EndGame>();
 			}
 		}

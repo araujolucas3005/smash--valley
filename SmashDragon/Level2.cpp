@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Level2.h"
 #include "Level3.h"
+#include "TransitionScreen.h"
 #include "SmashDragon.h"
 #include "GameTest.h"
 
@@ -63,7 +64,8 @@ void Level2::Update()
 			if (levelEndingTimer->Elapsed(3.0f))
 			{
 				SmashDragon::passLevel = false;
-				SmashDragon::NextLevel<Level3>();
+				SmashDragon::round = 3;
+				SmashDragon::NextLevel<TransitionScreen>();
 			}
 		}
 		else

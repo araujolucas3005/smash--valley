@@ -269,6 +269,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TransitionScreen.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
@@ -306,6 +307,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TileSet.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="TransitionScreen.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Window.h" />

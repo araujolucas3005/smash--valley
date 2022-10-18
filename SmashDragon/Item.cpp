@@ -69,7 +69,7 @@ void Item::Update()
 
 void Item::Draw()
 {
-    animation->Draw(x, y, z);
+    animation->Draw(x, y, Layer::UPPER);
 }
 
 // -------------------------------------------------------------------------------
