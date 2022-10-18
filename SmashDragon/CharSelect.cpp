@@ -113,9 +113,9 @@ void CharSelect::Update()
 
             switch (indexPlayerOne)
             {
-                case 0: audio->Play(GOKU); break;
-                case 1: case 3: audio->Play(GOHAN); break;
-                case 2: audio->Play(VEGETA); break;
+                case 0: audio->Play(GOKU); Sleep(1000); break;
+                case 1: case 3: audio->Play(GOHAN); Sleep(1000); break;
+                case 2: audio->Play(VEGETA); Sleep(1000); break;
             }
         }
     }

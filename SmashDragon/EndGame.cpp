@@ -19,7 +19,8 @@ void EndGame::Init()
     audio->Add(GOKU, "Resources/EndGame/goku_win.wav");
     audio->Add(VEGETA, "Resources/EndGame/vegeta_win.wav");
     audio->Add(GOHAN, "Resources/EndGame/gohan_win.wav");
-    audio->Add(VICTORY,"Resources/EndGame/victory.wav");
+    audio->Add(VICTORY,"Resources/EndGame/VictoryTheme.wav");
+    audio->Play(VICTORY);
 
     if (SmashDragon::playerOnePoints > SmashDragon::playerTwoPoints)
         winner = SmashDragon::playerOne->character->index;
@@ -89,6 +90,7 @@ void EndGame::Finalize()
     delete vegeta;
     delete gohan;
     delete kidGohan;
+    delete audio;
 }
 
 // ------------------------------------------------------------------------------

@@ -12,6 +12,9 @@ void Level2::Init()
 {
 	// carrega pain�is e pano de fundo
 	backg = new Sprite("Resources/Stage2.png");
+	audio = new Audio();
+	audio->Add(L2THEME, "Resources/Stage2Theme.wav");
+	audio->Play(L2THEME);
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
 	Platform* platform1 = new Platform(TRAVERSABLE_PLATFORM);
@@ -125,5 +128,6 @@ void Level2::Finalize()
 
 	delete scene;
 	delete backg;
+	delete audio;
 }
 

@@ -10,10 +10,13 @@
 #include "Platform.h"
 #include "Level.h"
 
+enum {L2THEME};
+
 class Level2 : public Game, Level
 {
 private:
     Sprite* backg = nullptr;           // pano de fundo
+    Audio* audio = nullptr;
 
     float bgScale = 0.0f;               // escala do pano de fundo
 

@@ -12,6 +12,9 @@ void Level3::Init()
 {
 	// carrega pain�is e pano de fundo
 	//backg = new Sprite("Resources/Kamikaze.jpg");
+	audio = new Audio();
+	audio->Add(L3THEME, "Resources/Stage3Theme.wav");
+	audio->Play(L3THEME);
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
 	Platform* platform = new Platform(PLATFORM);
@@ -111,5 +114,6 @@ void Level3::Finalize()
 
 	delete scene;
 	delete backg;
+	delete audio;
 }
 
