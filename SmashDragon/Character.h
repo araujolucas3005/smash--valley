@@ -11,12 +11,14 @@ private:
     TileSet* tileset; 
     TileSet* tilesetRight;
 
+
 public:
     Animation* anim;        
     Animation* animRight;
     int index;
+    Sprite* charImg;
 
-    Character(TileSet* tilesetLeft, TileSet* tilesetRight);
+    Character(TileSet* tilesetLeft, TileSet* tilesetRight, Sprite* charImg);
     ~Character();                         
 
     void AddSec(uint type, uint* sec, uint secSize);

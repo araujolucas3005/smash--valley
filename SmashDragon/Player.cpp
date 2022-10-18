@@ -363,7 +363,7 @@ void Player::ResetAfterLevel()
 {
 	Reset();
 	lost = false;
-	life = 5;
+	life = 4;
 }
 
 // ---------------------------------------------------------------------------------
@@ -724,11 +724,11 @@ void Player::Draw()
 {
 	if (lookingDir == RIGHT)
 	{
-		character->animRight->Draw(x, y, z);
+		character->animRight->Draw(x, y, z, 1.0f, 0.0f, {1, hits > 8 ? 6 / (hits + 4) : 1, 1, 1});
 	}
 	else
 	{
-		character->anim->Draw(x, y, z);
+		character->anim->Draw(x, y, z, 1.0f, 0.0f, { 1, hits > 8 ? 6 / (hits + 4) : 1, 1, 1 });
 	}
 
 	if (state == JUMPUP)

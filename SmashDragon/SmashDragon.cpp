@@ -33,6 +33,11 @@ void SmashDragon::Init()
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
 
+	charactersSelectImg[0] = new Sprite("Resources/CharSelection/goku.png");
+	charactersSelectImg[1] = new Sprite("Resources/CharSelection/gohan.png");
+	charactersSelectImg[2] = new Sprite("Resources/CharSelection/vegeta.png");
+	charactersSelectImg[3] = new Sprite("Resources/CharSelection/kid gohan.png");
+
 	gokuLeft = new TileSet("Resources/goku_sprite_sheet_l.png", 153, 153, 8, 120);
 	gokuRight = new TileSet("Resources/goku_sprite_sheet_r.png", 153, 153, 8, 112);
 
@@ -45,10 +50,10 @@ void SmashDragon::Init()
 	kidGohanLeft = new TileSet("Resources/kid_gohan_sprite_sheet_l.png", 144, 172, 10, 140);
 	kidGohanRight = new TileSet("Resources/kid_gohan_sprite_sheet_r.png", 144, 172, 10, 140);
 
-	characters[0] = new Character(gokuLeft, gokuRight);
-	characters[1] = new Character(gohanLeft, gohanRight);
-	characters[2] = new Character(vegetaLeft, vegetaRight);
-	characters[3] = new Character(kidGohanLeft, kidGohanRight);
+	characters[0] = new Character(gokuLeft, gokuRight, charactersSelectImg[0]);
+	characters[1] = new Character(gohanLeft, gohanRight, charactersSelectImg[1]);
+	characters[2] = new Character(vegetaLeft, vegetaRight, charactersSelectImg[2]);
+	characters[3] = new Character(kidGohanLeft, kidGohanRight, charactersSelectImg[3]);
 
 	uint gseqStill[10] = { 0, 0, 1, 2, 3, 3, 2, 1, 0, 0 };
 	uint gseqAttack[6] = { 96, 96, 96,  97, 97, 97 };
@@ -202,10 +207,7 @@ void SmashDragon::Init()
 	//...
 
 	//ADICIONAR AS IMAGENS DE SELECAO DE PERSONAGEM JOG�VEIS
-	charactersSelectImg[0] = new Sprite("Resources/CharSelection/goku.png");
-	charactersSelectImg[1] = new Sprite("Resources/CharSelection/gohan.png");
-	charactersSelectImg[2] = new Sprite("Resources/CharSelection/vegeta.png");
-	charactersSelectImg[3] = new Sprite("Resources/CharSelection/kid gohan.png");
+
 
 	bold = new Font("Resources/Tahoma14b.png");
 	bold->Spacing("Resources/Tahoma14b.dat");

@@ -14,7 +14,7 @@
 
 // ---------------------------------------------------------------------------------
 
-Character::Character(TileSet* tilesetLeft, TileSet* tilesetRight)
+Character::Character(TileSet* tilesetLeft, TileSet* tilesetRight, Sprite * charImg) : charImg(charImg)
 {
 	anim = new Animation(tilesetLeft, 0.1f, false);
 	animRight = new Animation(tilesetRight, 0.1f, false);
