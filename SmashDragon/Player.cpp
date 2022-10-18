@@ -59,7 +59,7 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 
 	hitEffectL = new TileSet("Resources/strong_hit_sprite_small_l.png", 240, 240, 4, 4);
 	hitAnimL = new Animation(hitEffectL, 0.0180f, false);
-	uint seq[] = {3, 2, 1, 0};
+	uint seq[] = { 3, 2, 1, 0 };
 	hitAnimL->Add(1, seq, 4);
 	hitAnimL->Select(1);
 
@@ -397,6 +397,13 @@ void Player::Update()
 {
 	if (SmashDragon::passLevel)
 	{
+		if (isAttacking)
+		{
+			isAttacking = false;
+
+			Mixed* geo = (Mixed*)BBox();
+			geo->Remove(currAttackRect);
+		}
 		if (!lost)
 		{
 			lookingDir = LEFT;
@@ -478,7 +485,7 @@ void Player::Update()
 					{
 						Mixed* geo = (Mixed*)BBox();
 
-						/*if (lookingDir == RIGHT)
+						if (lookingDir == RIGHT)
 						{
 							geo->Insert(attackRightRect);
 							currAttackRect = attackRightRect;
@@ -487,7 +494,7 @@ void Player::Update()
 						{
 							geo->Insert(attackRect);
 							currAttackRect = attackRect;
-						}*/
+						}
 
 						attackDelayTimer->Start();
 
@@ -611,8 +618,8 @@ void Player::Update()
 			{
 				isAttacking = false;
 
-			/*	Mixed* geo = (Mixed*)BBox();
-				geo->Remove(currAttackRect);*/
+					Mixed* geo = (Mixed*)BBox();
+					geo->Remove(currAttackRect);
 			}
 		}
 
@@ -724,7 +731,7 @@ void Player::Draw()
 {
 	if (lookingDir == RIGHT)
 	{
-		character->animRight->Draw(x, y, z, 1.0f, 0.0f, {1, hits > 8 ? 6 / (hits + 4) : 1, 1, 1});
+		character->animRight->Draw(x, y, z, 1.0f, 0.0f, { 1, hits > 8 ? 6 / (hits + 4) : 1, 1, 1 });
 	}
 	else
 	{
