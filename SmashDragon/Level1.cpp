@@ -38,8 +38,8 @@ void Level1::Init()
 	scene->Add(upPlatform1, STATIC);
 	scene->Add(upPlatform2, STATIC);
 
-	SmashDragon::playerOne->life = 5;
-	SmashDragon::playerTwo->life = 5;
+	SmashDragon::playerOne->life = 4;
+	SmashDragon::playerTwo->life = 4;
 
 	SmashDragon::playerOne->MoveTo(window->CenterX() - 100, window->CenterY() - 100);
 	SmashDragon::playerTwo->MoveTo(window->CenterX() + 100, window->CenterY() - 100);
