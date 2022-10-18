@@ -11,8 +11,12 @@ class EndGame : public Game
 {
 private:
     Sprite* backg = nullptr;       // pano de fundo
-    TileSet* tileset = nullptr;    // tileset da anima��o
-    Animation* anim = nullptr;     // anima��o do menu
+    Sprite* goku = nullptr;
+    Sprite* vegeta = nullptr;
+    Sprite* gohan = nullptr;
+    Sprite* kidGohan = nullptr;
+
+    int winner;
 
 public:
     void Init();                    // inicia n�vel

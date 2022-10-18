@@ -28,7 +28,6 @@ public:
 	static int playerOnePoints;
 	static int playerTwoPoints;
 	static bool passLevel;
-
 	static TileSet* hit;
 	static TileSet* dash;
 	static TileSet* jump;

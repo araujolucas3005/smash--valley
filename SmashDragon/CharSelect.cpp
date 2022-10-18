@@ -189,6 +189,8 @@ void CharSelect::Update()
         audio->Stop(SONG);
         audio->Play(READYBATTLE);
         Sleep(2000);
+        SmashDragon::playerOne->character->index = indexPlayerOne;
+        SmashDragon::playerTwo->character->index = indexPlayerTwo;
         SmashDragon::NextLevel<Level1>();
     }
     else
@@ -207,10 +209,10 @@ void CharSelect::Draw()
    icones->Draw(window->CenterX(), window->CenterY(), Layer::UPPER);
    SmashDragon::charactersSelectImg[currIndexPlayerOne]->Draw(window->CenterX() - 350, window->CenterY(), Layer::MIDDLE);
    SmashDragon::charactersSelectImg[currIndexPlayerTwo]->Draw(window->CenterX() + 350, window->CenterY(), Layer::MIDDLE);
-   animP1->Draw(370 + (167 * currIndexPlayerOne), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1});
-   animP2->Draw((window->Width() - 330) - (167 * (3 - currIndexPlayerTwo)), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
-   P1->Draw(370 + (167 * currIndexPlayerOne), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
-   P2->Draw((window->Width() - 330) - (167 * (3 - currIndexPlayerTwo)), window->Height() - 130, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
+   animP1->Draw(370 + (167 * currIndexPlayerOne), window->Height() - 133, Layer::FRONT, 1, 0, { 1, 1, 1, 1});
+   animP2->Draw((window->Width() - 330) - (167 * (3 - currIndexPlayerTwo)), window->Height() - 133, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
+   P1->Draw(370 + (167 * currIndexPlayerOne), window->Height() - 133, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
+   P2->Draw((window->Width() - 330) - (167 * (3 - currIndexPlayerTwo)), window->Height() - 133, Layer::FRONT, 1, 0, { 1, 1, 1, 1 });
 }
 
 // ------------------------------------------------------------------------------

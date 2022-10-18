@@ -50,6 +50,19 @@ private:
 	float gravity = 1;
 	ushort jumps = 0;
 
+	TileSet* jumpEffect = nullptr;
+	Animation* jumpAnim = nullptr;
+	float xJump = 0, yJump = 0;
+
+	TileSet* hitEffectR = nullptr;
+	Animation* hitAnimR = nullptr;
+
+	TileSet* hitEffectL = nullptr;
+	Animation* hitAnimL = nullptr;
+
+	float xHit = 0, yHit = 0;
+	PLAYERSTATE hitDirection;
+
 	Timer* dashingTimer = nullptr;
 	Timer* stopAfterHitTimer = nullptr;
 	Timer* hitInvunerabilityTimer = nullptr;
@@ -72,6 +85,7 @@ public:
 	float hits = 2;
 	int life = 5;
 	float percentToThrow = 0;
+	bool firstJump = true;
 
 	Attack* attackRight;
 	Attack* attackLeft;
@@ -82,6 +96,7 @@ public:
 	Timer* levelEndingTimer = nullptr;
 	Timer* enemyInvunerabilityTimer = nullptr;
 	Timer* attackDelayTimer = nullptr;
+	Timer* spawnTimer = nullptr;
 
 	uint lookingDir = RIGHT;
 

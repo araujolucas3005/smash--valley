@@ -10,6 +10,7 @@ void Home::Init()
     scene = new Scene();
 
     backg = new Sprite("Resources/Home/fundo.png");
+    instructions = new Sprite("Resources/Home/fundo.png");
     front = new Sprite("Resources/Home/frente.png");
     xF = xB = window->CenterX();
 
@@ -58,12 +59,13 @@ void Home::Update()
             switch (menu[i]->Type())
             {
                 case PLAY: if (mouse->Clicked()) passLevel = true; break;
-                case INSTRUCTIONS: if (mouse->Clicked()) window->Close(); break;
+                case INSTRUCTIONS: showInstructions = true; break;
             }
         }
         else
         {
             menu[i]->UnSelect();
+            showInstructions = false;
         }
 
         menu[i]->Update();
@@ -105,6 +107,9 @@ void Home::Draw()
     if (xF + frontCloudsImage->Width() / 2.0f < 0)
         xF += frontCloudsImage->Width();
 
+    if (showInstructions)
+        instructions->Draw(window->CenterX(), window->CenterY(), Layer::FRONT);
+
     scene->Draw();
 }
 
@@ -121,6 +126,7 @@ void Home::Finalize()
     delete backClouds2;
     delete backCloudsImage;
     delete scene;
+    delete instructions;
 }
 
 // ------------------------------------------------------------------------------

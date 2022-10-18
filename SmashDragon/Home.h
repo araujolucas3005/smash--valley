@@ -16,6 +16,7 @@ private:
     Scene* scene = nullptr;
     Sprite* backg = nullptr;       // pano de fundo
     Sprite* front = nullptr;
+    Sprite* instructions = nullptr;
     Image* frontCloudsImage = nullptr;
     Image* backCloudsImage = nullptr;
     float xF;
@@ -29,6 +30,7 @@ private:
     Item* menu[2] = { 0 };
     Mouse* mouse = nullptr;
     bool passLevel = false;
+    bool showInstructions = false;
 
 public:
     void Init();                    // inicia n�vel

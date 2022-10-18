@@ -3,7 +3,7 @@
 
 #include "Animation.h"
 
-enum CharacterState { STILL, JUMP, HIT, WALKLEFT, WALKRIGHT, HITTAKEN, DASH, WALKJUMP, MOVINGATTACK, WINNEREND, JUMPUP, JUMPDOWN };
+enum CharacterState { STILL, JUMP, HIT, SPAWN, WALKLEFT, WALKRIGHT, HITTAKEN, DASH, WALKJUMP, MOVINGATTACK, WINNEREND, JUMPUP, JUMPDOWN };
 
 class Character
 {
@@ -14,6 +14,7 @@ private:
 public:
     Animation* anim;        
     Animation* animRight;
+    int index;
 
     Character(TileSet* tilesetLeft, TileSet* tilesetRight);
     ~Character();                         

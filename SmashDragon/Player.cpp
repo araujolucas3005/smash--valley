@@ -51,6 +51,18 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 	ctrlJump = ctrlAttack = ctrlDown = ctrlDash = true;
 	isAttacking = isFlyingFromHit = isDashing = stoppedAfterHit = invulnerableFromHit = isReborning = false;
 
+	jumpEffect = new TileSet("Resources/jump_straight_sprite.png", 80, 80, 6, 6);
+	jumpAnim = new Animation(jumpEffect, 0.0180f, false);
+
+	hitEffectR = new TileSet("Resources/strong_hit_sprite_small_r.png", 240, 240, 4, 4);
+	hitAnimR = new Animation(hitEffectR, 0.0180f, false);
+
+	hitEffectL = new TileSet("Resources/strong_hit_sprite_small_l.png", 240, 240, 4, 4);
+	hitAnimL = new Animation(hitEffectL, 0.0180f, false);
+	uint seq[] = {3, 2, 1, 0};
+	hitAnimL->Add(1, seq, 4);
+	hitAnimL->Select(1);
+
 	attackTimer = new Timer();
 	hitFlyingTimer = new Timer();
 	dashingTimer = new Timer();
@@ -77,6 +89,12 @@ Player::~Player()
 	delete attackRightRect;
 	delete attackRight;
 	delete attackLeft;
+	delete jumpEffect;
+	delete jumpAnim;
+	delete hitAnimR;
+	delete hitAnimR;
+	delete hitEffectR;
+	delete hitEffectL;
 }
 
 // ---------------------------------------------------------------------------------
@@ -138,6 +156,23 @@ void Player::WhenHit(Player* enemy)
 	beforeHitVelY = velY;
 
 	hits++;
+
+	if (enemy->lookingDir == RIGHT)
+	{
+		if (hitAnimR->Inactive())
+			hitAnimR->Restart();
+		hitDirection = RIGHT;
+		xHit = enemy->X() + (enemy->width / 2);
+	}
+	else
+	{
+		if (hitAnimL->Inactive())
+			hitAnimL->Restart();
+		hitDirection = LEFT;
+		xHit = enemy->X() - (enemy->width / 2);
+	}
+
+	yHit = enemy->Y();
 
 	percentToThrow = (hits - 1) * 13.55;
 
@@ -436,7 +471,13 @@ void Player::Update()
 					jumps++;
 
 					ctrlJump = false;
+
+					if (jumpAnim->Inactive())
+						jumpAnim->Restart();
+					xJump = x;
+					yJump = y + ((height - 20) / 2);
 				}
+
 				else if (window->KeyUp(mk.jump))
 				{
 					ctrlJump = true;
@@ -648,8 +689,6 @@ void Player::Update()
 			}
 		}
 
-
-
 		if (!stoppedAfterHit)
 		{
 			if (lookingDir == RIGHT)
@@ -683,7 +722,9 @@ void Player::Update()
 		}
 	}
 
-
+	jumpAnim->NextFrame();
+	hitAnimL->NextFrame();
+	hitAnimR->NextFrame();
 }
 
 // ---------------------------------------------------------------------------------
@@ -699,4 +740,12 @@ void Player::Draw()
 		character->anim->Draw(x, y, z);
 	}
 
+	if (state == JUMPUP)
+		jumpAnim->Draw(xJump, yJump, z);
+
+	if (state == HITTAKEN)
+		if (hitDirection == RIGHT)
+			hitAnimR->Draw(xHit, yHit, z);
+		else
+			hitAnimL->Draw(xHit, yHit, z);
 }

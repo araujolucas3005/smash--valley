@@ -10,7 +10,7 @@
 void Level1::Init()
 {
 	// carrega pain�is e pano de fundo
-	//backg = new Sprite("Resources/Kamikaze.jpg");
+	backg = new Sprite("Resources/Stage1.png");
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
 	Platform* platform = new Platform(PLATFORM);
@@ -82,7 +82,7 @@ void Level1::Update()
 void Level1::Draw()
 {
 	// desenha pano de fundo
-	//backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK, bgScale);
+	backg->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
 
 	scene->Draw();
 
