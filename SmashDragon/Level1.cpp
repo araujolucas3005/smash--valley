@@ -12,6 +12,9 @@ void Level1::Init()
 {
 	// carrega pain�is e pano de fundo
 	backg = new Sprite("Resources/Stage1.png");
+	audio = new Audio();
+	audio->Add(L1THEME,"Resources/Stage1Theme.wav");
+	audio->Play(L1THEME);
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
 	Platform* platform = new Platform(PLATFORM);
@@ -128,5 +131,6 @@ void Level1::Finalize()
 
 	delete scene;
 	delete backg;
+	delete audio;
 }
 
