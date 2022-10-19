@@ -10,7 +10,6 @@
 #include "Platform.h"
 #include "Level.h"
 
-enum {L2THEME};
 
 class Level2 : public Game, Level
 {

@@ -157,6 +157,13 @@ void Player::WhenHit(Player* enemy)
 
 	hits++;
 
+	int number = rand() % 1;
+
+	if (number == 0)
+		SmashDragon::audio->Play(PUNCH1, false);
+	else
+		SmashDragon::audio->Play(PUNCH2, false);
+
 	if (enemy->lookingDir == RIGHT)
 	{
 		if (hitAnimR->Inactive())
@@ -468,6 +475,8 @@ void Player::Update()
 
 					ctrlJump = false;
 
+					SmashDragon::audio->Play(JUMPAUDIO, false);
+
 					if (jumpAnim->Inactive())
 						jumpAnim->Restart();
 					xJump = x;
@@ -651,7 +660,7 @@ void Player::Update()
 
 		else if ((x - 40 > window->Width()) || (x + 40 < 0) || (Y() - 90 > window->Height()))
 		{
-
+			SmashDragon::audio->Play(OUTOFSCREEN, false);
 			gravity = 1;
 			life--;
 			velY = 100.0f;

@@ -10,8 +10,6 @@
 #include "Platform.h"
 #include "Level.h"
 
-enum {L3THEME};
-
 class Level3 : public Game, Level
 {
 private:

@@ -12,9 +12,7 @@ void Level2::Init()
 {
 	// carrega pain�is e pano de fundo
 	backg = new Sprite("Resources/Stage2.png");
-	audio = new Audio();
-	audio->Add(L2THEME, "Resources/Stage2Theme.wav");
-	audio->Play(L2THEME);
+	SmashDragon::audio->Play(L2THEME, true);
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
 	Platform* platform1 = new Platform(TRAVERSABLE_PLATFORM);
@@ -68,6 +66,7 @@ void Level2::Update()
 			{
 				SmashDragon::passLevel = false;
 				SmashDragon::round = 3;
+				SmashDragon::audio->Stop(L2THEME);
 				SmashDragon::NextLevel<TransitionScreen>();
 			}
 		}
@@ -105,7 +104,7 @@ void Level2::Draw()
 
 	SmashDragon::playerOne->character->charImg->Draw(50, 75, Layer::FRONT, 0.15f);
 	SmashDragon::playerTwo->character->charImg->Draw(window->Width() - 50, 75, Layer::FRONT, 0.15f);
-	SmashDragon::bold->Draw(window->Width() + 2, 115, (std::to_string(SmashDragon::playerTwo->life)).c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
+
 
 	SmashDragon::bold->Draw(110, 95, (std::to_string(int((SmashDragon::playerOne->hits - 2) * 12)) + "%").c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
 	SmashDragon::bold->Draw(window->Width() - 90, 95, (std::to_string(int((SmashDragon::playerTwo->hits - 2) * 12)) + "%").c_str(), { 0, 0, 0, 1 }, Layer::FRONT, 1.2f);
@@ -128,6 +127,5 @@ void Level2::Finalize()
 
 	delete scene;
 	delete backg;
-	delete audio;
 }
 
