@@ -53,10 +53,8 @@ void EndGame::Update()
     }
     else
     {
-        /*anim->NextFrame();*/
+        animation->NextFrame();
     }
-    
-    animation->NextFrame();
 }
 
 // ------------------------------------------------------------------------------
@@ -91,6 +89,7 @@ void EndGame::Finalize()
     delete gohan;
     delete kidGohan;
     delete audio;
+    delete animation;
 }
 
 // ------------------------------------------------------------------------------

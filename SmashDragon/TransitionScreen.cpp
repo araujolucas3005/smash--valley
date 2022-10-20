@@ -40,9 +40,9 @@ void TransitionScreen::Draw()
     SmashDragon::playerOne->character->charImg->Draw(window->CenterX() - 30, 270, Layer::FRONT, 0.15f);
     SmashDragon::playerTwo->character->charImg->Draw(window->CenterX() - 30, 360, Layer::FRONT, 0.15f);
 
-    string points = to_string(3 - SmashDragon::playerOnePoints);
+    string points = to_string(3 - SmashDragon::playerTwoPoints);
     SmashDragon::bold->Draw(window->CenterX() + 35, 280, points, { 1, 1, 1, 1 }, Layer::FRONT, 1.2f);
-    points = to_string(3 - SmashDragon::playerTwoPoints);
+    points = to_string(3 - SmashDragon::playerOnePoints);
     SmashDragon::bold->Draw(window->CenterX() + 35, 370, points, { 1, 1, 1, 1 }, Layer::FRONT, 1.2f);
 }
 

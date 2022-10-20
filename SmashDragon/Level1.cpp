@@ -12,6 +12,7 @@ void Level1::Init()
 {
 	// carrega pain�is e pano de fundo
 	backg = new Sprite("Resources/Stage1.png");
+	SmashDragon::audio->Play(FIGHT);
 	SmashDragon::audio->Play(L1THEME);
 
 	// PEGAR AS PLATAFORMAS DE UM ARQUIVO
@@ -69,12 +70,13 @@ void Level1::Update()
 			{
 				SmashDragon::passLevel = false;
 				SmashDragon::round = 2;
-				SmashDragon::audio->Stop(L1THEME);
+			
 				SmashDragon::NextLevel<TransitionScreen>();
 			}
 		}
 		else
 		{
+			SmashDragon::audio->Stop(L1THEME);
 			SmashDragon::playerOne->character->anim->Restart();
 			SmashDragon::playerTwo->character->anim->Restart();
 

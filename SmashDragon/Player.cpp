@@ -143,11 +143,11 @@ void Player::WhenHit(Player* enemy)
 {
 	if (enemy->prevVelY == 0 && enemy->velX == 0)
 	{
-		velX = (enemy->lookingDir == RIGHT ? 300 : -300) * (hits / 6.0f);
+		velX = (enemy->lookingDir == RIGHT ? 300 : -300) * (hits / 4.0f);
 	}
 	else
 	{
-		velX = enemy->velX * (hits / 6.0f);
+		velX = enemy->velX * (hits / 4.0f);
 	}
 
 	velY = (enemy->velY < 0 ? -1 : 1) * 200 * (hits / 1.5f);
@@ -356,7 +356,7 @@ void Player::Reset()
 	percentToThrow = 0;
 
 	ctrlJump = ctrlAttack = ctrlDown = ctrlDash = true;
-	isAttacking = isFlyingFromHit = isDashing = stoppedAfterHit = invulnerableFromHit = false;
+	isAttacking = isFlyingFromHit = isDashing = stoppedAfterHit = invulnerableFromHit = endLevel = false;
 
 	attackTimer->Reset();
 	hitFlyingTimer->Reset();
@@ -404,6 +404,7 @@ void Player::Update()
 {
 	if (SmashDragon::passLevel)
 	{
+
 		if (isAttacking)
 		{
 			isAttacking = false;
@@ -411,8 +412,16 @@ void Player::Update()
 			Mixed* geo = (Mixed*)BBox();
 			geo->Remove(currAttackRect);
 		}
+
 		if (!lost)
 		{
+		/*	if (!endLevel)
+			{
+				endLevel = true;
+
+				MoveTo(window->CenterX(), 500);
+			}*/
+
 			lookingDir = LEFT;
 			character->anim->Delay(0.1f);
 			character->anim->Select(WINNEREND);
@@ -463,33 +472,35 @@ void Player::Update()
 			}
 			else
 			{
-				if (window->KeyDown(mk.jump) && ctrlJump && jumps < 4)
-				{
-					MoveTo(x, y - 1.0f);
-
-					velY = -500;
-
-					gravity = 1;
-
-					jumps++;
-
-					ctrlJump = false;
-
-					SmashDragon::audio->Play(JUMPAUDIO, false);
-
-					if (jumpAnim->Inactive())
-						jumpAnim->Restart();
-					xJump = x;
-					yJump = y + ((height - 20) / 2);
-				}
-
-				else if (window->KeyUp(mk.jump))
-				{
-					ctrlJump = true;
-				}
+				
 
 				if (!isDashing)
 				{
+					if (window->KeyDown(mk.jump) && ctrlJump && jumps < 4)
+					{
+						MoveTo(x, y - 1.0f);
+
+						velY = -500;
+
+						gravity = 1;
+
+						jumps++;
+
+						ctrlJump = false;
+
+						SmashDragon::audio->Play(JUMPAUDIO, false);
+
+						if (jumpAnim->Inactive())
+							jumpAnim->Restart();
+						xJump = x;
+						yJump = y + ((height - 20) / 2);
+					}
+
+					else if (window->KeyUp(mk.jump))
+					{
+						ctrlJump = true;
+					}
+
 					if (window->KeyDown(mk.attack) && ctrlAttack && !isAttacking && attackDelayTimer->Elapsed(1.0f))
 					{
 						Mixed* geo = (Mixed*)BBox();
@@ -676,6 +687,8 @@ void Player::Update()
 					SmashDragon::playerOnePoints -= 1;
 				else
 					SmashDragon::playerTwoPoints -= 1;
+
+				SmashDragon::audio->Play(KO);
 
 				lost = true;
 				SmashDragon::passLevel = true;

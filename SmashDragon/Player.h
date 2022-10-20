@@ -44,6 +44,7 @@ private:
 
 	bool ctrlJump, ctrlAttack, ctrlDown, ctrlDash, stoppedAfterHit, invulnerableFromHit;
 	bool lost = false;
+	bool endLevel = false;
 
 	uint rebornDirection;
 

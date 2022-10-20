@@ -14,6 +14,7 @@ Player*		SmashDragon::playerTwo = nullptr;
 Audio*		SmashDragon::audio = nullptr;
 TileSet*	SmashDragon::dash = nullptr;
 TileSet*	SmashDragon::jump = nullptr;
+TileSet*	SmashDragon::teleport = nullptr;
 TileSet*	SmashDragon::hit = nullptr;
 bool		SmashDragon::viewBBox = false;
 Character*	SmashDragon::characters[4] = { nullptr };
@@ -38,6 +39,8 @@ void SmashDragon::Init()
 	audio->Add(L1THEME, "Resources/Stage1Theme.wav");
 	audio->Add(L2THEME, "Resources/Stage2Theme.wav");
 	audio->Add(L3THEME, "Resources/Stage3Theme.wav");
+	audio->Add(KO, "Resources/KO.wav");
+	audio->Add(FIGHT, "Resources/fight.wav");
 	//audio->Add(MUSIC, "Resources/Music.wav");
 	//audio->Add(TRANSITION, "Resources/Transition.wav");
 
@@ -235,6 +238,7 @@ void SmashDragon::Init()
 	hit = new TileSet("Resources/strong_hit_sprite_small.png", 1, 4);
 	jump = new TileSet("Resources/jump_straight_sprite.png", 1, 6);
 	dash = new TileSet("Resources/dash_sprite_small.png", 1, 6);
+	teleport = new TileSet("Resources/teleport.png", 8, 8);
 
 	level = new Home();
 	SmashDragon::audio->Play(MENU, true);
@@ -283,6 +287,7 @@ void SmashDragon::Finalize()
 	delete hit;
 	delete dash;
 	delete jump;
+	delete teleport;
 
 	for (auto character : characters)
 		delete character;

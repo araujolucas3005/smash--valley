@@ -11,7 +11,7 @@
 #include "Resources.h"
 #include "Font.h"
 
-enum Sounds { MENU, MUSIC, TRANSITION, PUNCH1, PUNCH2, OUTOFSCREEN, JUMPAUDIO, L1THEME, L2THEME, L3THEME };
+enum Sounds { MENU, MUSIC, TRANSITION, PUNCH1, PUNCH2, OUTOFSCREEN, JUMPAUDIO, L1THEME, L2THEME, L3THEME, KO, FIGHT };
 
 class SmashDragon : public Game
 {
@@ -31,6 +31,7 @@ public:
 	static TileSet* hit;
 	static TileSet* dash;
 	static TileSet* jump;
+	static TileSet* teleport;
 	static Sprite* dragonballs[5];
 	static int round;
 
