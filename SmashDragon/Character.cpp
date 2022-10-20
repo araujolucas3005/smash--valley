@@ -26,6 +26,8 @@ Character::~Character()
 {
 	delete anim;
 	delete animRight;
+	delete hpImg;
+	delete charImgTransition;
 }
 
 void Character::AddSec(uint type, uint* sec, uint secSize)

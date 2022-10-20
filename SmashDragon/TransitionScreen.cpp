@@ -34,11 +34,11 @@ void TransitionScreen::Update()
 
 void TransitionScreen::Draw()
 {
-    string text = "Round " + to_string(SmashDragon::round) + " de 3";
+    string text = "Round " + to_string(SmashDragon::round) + " of 3";
     SmashDragon::bold->Draw(window->CenterX() - 75, 115, text, {1, 1, 1, 1}, Layer::FRONT, 2.0f);
 
-    SmashDragon::playerOne->character->charImg->Draw(window->CenterX() - 30, 270, Layer::FRONT, 0.15f);
-    SmashDragon::playerTwo->character->charImg->Draw(window->CenterX() - 30, 360, Layer::FRONT, 0.15f);
+    SmashDragon::playerOne->character->charImgTransition->Draw(window->CenterX() - 30, 263, Layer::FRONT, 0.4f);
+    SmashDragon::playerTwo->character->charImgTransition->Draw(window->CenterX() - 30, 353, Layer::FRONT, 0.4f);
 
     string points = to_string(3 - SmashDragon::playerTwoPoints);
     SmashDragon::bold->Draw(window->CenterX() + 35, 280, points, { 1, 1, 1, 1 }, Layer::FRONT, 1.2f);

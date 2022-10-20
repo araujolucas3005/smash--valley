@@ -17,6 +17,8 @@ public:
     Animation* animRight;
     int index;
     Sprite* charImg;
+    Sprite* charImgTransition;
+    Sprite* hpImg;
 
     Character(TileSet* tilesetLeft, TileSet* tilesetRight, Sprite* charImg);
     ~Character();                         

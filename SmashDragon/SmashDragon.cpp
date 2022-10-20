@@ -234,6 +234,18 @@ void SmashDragon::Init()
 
 	viewBBox = false;
 
+	// Add desenho da vida
+	characters[0]->hpImg = new Sprite("Resources/hp_goku.png");
+	characters[1]->hpImg = new Sprite("Resources/hp_gohan.png");
+	characters[2]->hpImg = new Sprite("Resources/hp_vegeta.png");
+	characters[3]->hpImg = new Sprite("Resources/hp_kgohan.png");
+
+	// Add sprites dos personagens para transicao de tela
+	characters[0]->charImgTransition = new Sprite("Resources/gokuright.png");
+	characters[1]->charImgTransition = new Sprite("Resources/gohanrightt.png");
+	characters[2]->charImgTransition = new Sprite("Resources/vegitaright.png");
+	characters[3]->charImgTransition = new Sprite("Resources/kgohanrigiht.png");
+
 	//JOGADORES
 	playerOne = new Player({ 'W', 'A', 'S', 'D', VK_SPACE, 'K', VK_SHIFT }, ONE, LEFT);
 	playerTwo = new Player({ VK_UP, VK_LEFT, VK_DOWN, VK_RIGHT, VK_NUMPAD0, VK_NUMPAD1, VK_NUMPAD2 }, TWO, RIGHT);
