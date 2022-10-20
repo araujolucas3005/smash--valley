@@ -20,6 +20,8 @@ private:
     Audio* audio = nullptr;
     TileSet* tileset = nullptr;
     Animation* animation = nullptr;
+    TileSet* tilesetPS = nullptr;
+    Animation* animationPS = nullptr;
 
     int winner;
 
