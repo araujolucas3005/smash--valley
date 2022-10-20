@@ -110,8 +110,8 @@ void Level1::Draw()
 		gap += 40;
 	}
 
-	SmashDragon::bold->Draw(215.f, 45.0f, (std::to_string(int((SmashDragon::playerOne->hits - 2) * 12)) + "%").c_str(), {1, 1, 1, 1}, Layer::FRONT, 1.2f);
-	SmashDragon::bold->Draw(window->Width() - 75.0f, 45.0f, (std::to_string(int((SmashDragon::playerTwo->hits - 2) * 12)) + "%").c_str(), { 1, 1, 1, 1 }, Layer::FRONT, 1.2f);
+	SmashDragon::bold->Draw(215.f, 52.0f, (std::to_string(int((SmashDragon::playerOne->hits - 2) * 12)) + "%").c_str(), {1, 1, 1, 1}, Layer::FRONT, 2.0f);
+	SmashDragon::bold->Draw(window->Width() - 75.0f, 52.0f, (std::to_string(int((SmashDragon::playerTwo->hits - 2) * 12)) + "%").c_str(), { 1, 1, 1, 1 }, Layer::FRONT, 2.0f);
 
 	scene->Draw();
 

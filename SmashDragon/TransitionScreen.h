@@ -11,6 +11,8 @@ class TransitionScreen : public Game, Level
 {
 private:
     Timer* transitionTime = nullptr;
+    Sprite* stage1_bg = nullptr;
+    Sprite* stage2_bg = nullptr;
 
 public:
     void Init();

@@ -242,7 +242,7 @@ void SmashDragon::Init()
 
 	// Add sprites dos personagens para transicao de tela
 	characters[0]->charImgTransition = new Sprite("Resources/gokuright.png");
-	characters[1]->charImgTransition = new Sprite("Resources/gohanrightt.png");
+	characters[1]->charImgTransition = new Sprite("Resources/gohanright.png");
 	characters[2]->charImgTransition = new Sprite("Resources/vegitaright.png");
 	characters[3]->charImgTransition = new Sprite("Resources/kgohanrigiht.png");
 

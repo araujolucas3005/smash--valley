@@ -50,6 +50,9 @@ void Home::Update()
     xF -= (80 * gameTime);
     xB += (60 * gameTime);
 
+    menu[1]->Select();
+
+  
     for (int i = 0; i < 2; i++)
     {
         if (scene->Collision(mouse, menu[i]))
