@@ -52,7 +52,7 @@ Player::Player(MovementKeys mk, PLAYERID id, uint rebornDirection) : mk(mk), id(
 	isAttacking = isFlyingFromHit = isDashing = stoppedAfterHit = invulnerableFromHit = isReborning = false;
 
 	jumpEffect = new TileSet("Resources/jump_straight_sprite.png", 100, 100, 6, 6);
-	jumpAnim = new Animation(jumpEffect, 0.0180f, false);
+	jumpAnim = new Animation(jumpEffect, 0.05f, false);
 
 	hitEffectR = new TileSet("Resources/strong_hit_sprite_small_r.png", 240, 240, 4, 4);
 	hitAnimR = new Animation(hitEffectR, 0.0120f, false);
@@ -259,10 +259,6 @@ void Player::TraversablePlatformCollision(Platform* platform)
 			if (window->KeyDown(mk.down))
 			{
 				MoveTo(x, y + 1.0f);
-			}
-			else if (window->KeyDown(mk.jump))
-			{
-				MoveTo(x, y - 1.0f);
 			}
 			else
 			{
@@ -493,7 +489,7 @@ void Player::Update()
 						if (jumpAnim->Inactive())
 							jumpAnim->Restart();
 						xJump = x;
-						yJump = y + ((height - 20) / 2);
+						yJump = y + 25;
 					}
 
 					else if (window->KeyUp(mk.jump))
@@ -760,8 +756,8 @@ void Player::Draw()
 		character->anim->Draw(x, y, z, 1.0f, 0.0f, { 1, hits > 8 ? 6 / (hits + 4) : 1, 1, 1 });
 	}
 
-	if (state == JUMPUP)
-		jumpAnim->Draw(xJump, yJump, z);
+	if (!jumpAnim->Inactive())
+		jumpAnim->Draw(xJump, yJump, z, 1.5f);
 
 	if (state == HITTAKEN)
 		if (hitDirection == RIGHT)
