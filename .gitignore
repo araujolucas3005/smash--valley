@@ -11,6 +11,7 @@
 *.sln.docstates
 
 *.wav
+*.cso
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

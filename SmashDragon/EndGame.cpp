@@ -8,7 +8,11 @@
 void EndGame::Init()
 {
     tileset = new TileSet("Resources/EndGame/background sprite sheet.png", 1200, 640, 4, 4);
-    animation = new Animation(tileset, 0.5f, true);
+    animation = new Animation(tileset, 0.1f, true);
+
+    tilesetPS = new TileSet("Resources/EndGame/Press Space Sheet.png", 801, 61, 1, 4);
+    animationPS = new Animation(tilesetPS, 0.1f, true);
+
     vegeta = new Sprite("Resources/EndGame/vegeta_wins.png");
     goku = new Sprite("Resources/EndGame/goku_wins.png");
     gohan = new Sprite("Resources/EndGame/gohan_wins.png");
@@ -54,7 +58,10 @@ void EndGame::Update()
     else
     {
         animation->NextFrame();
+        animationPS->NextFrame();
     }
+    
+ 
 }
 
 // ------------------------------------------------------------------------------
@@ -62,13 +69,14 @@ void EndGame::Update()
 void EndGame::Draw()
 {
     animation->Draw(window->CenterX(), window->CenterY(), Layer::BACK);
+    animationPS->Draw(window->CenterX(), window->CenterY()+250, Layer::FRONT);
 
     switch (winner)
     {
-    case 0: goku->Draw(window->CenterX(), window->CenterY(), Layer::FRONT); break;
-    case 1: gohan->Draw(window->CenterX(), window->CenterY(), Layer::FRONT); break;
-    case 2: vegeta->Draw(window->CenterX(), window->CenterY(), Layer::FRONT); break;
-    case 3: kidGohan->Draw(window->CenterX(), window->CenterY(), Layer::FRONT); break;
+    case 0: goku->Draw(window->CenterX(), window->CenterY(), Layer::MIDDLE); break;
+    case 1: gohan->Draw(window->CenterX(), window->CenterY(), Layer::MIDDLE); break;
+    case 2: vegeta->Draw(window->CenterX(), window->CenterY(), Layer::MIDDLE); break;
+    case 3: kidGohan->Draw(window->CenterX(), window->CenterY(), Layer::MIDDLE); break;
     }
     
     
@@ -89,7 +97,6 @@ void EndGame::Finalize()
     delete gohan;
     delete kidGohan;
     delete audio;
-    delete animation;
 }
 
 // ------------------------------------------------------------------------------
