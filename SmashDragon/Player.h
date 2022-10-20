@@ -40,7 +40,7 @@ private:
 
 	float prevX, prevY;
 	float velX, velY, prevVelY, beforeHitVelX, beforeHitVelY;
-	float width, height;
+
 
 	bool ctrlJump, ctrlAttack, ctrlDown, ctrlDash, stoppedAfterHit, invulnerableFromHit;
 	bool lost = false;
@@ -79,6 +79,7 @@ private:
 public:
 	//n�o deletar no player, vai ser deletado no game principal
 	Character* character = nullptr;
+	float width, height;
 
 	MovementKeys mk;
 

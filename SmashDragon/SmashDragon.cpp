@@ -20,6 +20,7 @@ bool		SmashDragon::viewBBox = false;
 Character*	SmashDragon::characters[4] = { nullptr };
 Sprite*		SmashDragon::charactersSelectImg[4] = { nullptr };
 Sprite*		SmashDragon::dragonballs[5] = { nullptr };
+Sprite*		SmashDragon::shadow = nullptr;
 int			SmashDragon::playerOnePoints = 3;
 int			SmashDragon::playerTwoPoints = 3;
 bool		SmashDragon::passLevel = false;
@@ -49,6 +50,8 @@ void SmashDragon::Init()
 	dragonballs[2] = new Sprite("Resources/db3.png");
 	dragonballs[3] = new Sprite("Resources/db4.png");
 	dragonballs[4] = new Sprite("Resources/db5.png");
+	
+	shadow = new Sprite("Resources/shadow.png");
 
 	charactersSelectImg[0] = new Sprite("Resources/CharSelection/goku.png");
 	charactersSelectImg[1] = new Sprite("Resources/CharSelection/gohan.png");

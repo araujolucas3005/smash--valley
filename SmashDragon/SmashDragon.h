@@ -33,6 +33,7 @@ public:
 	static TileSet* jump;
 	static TileSet* teleport;
 	static Sprite* dragonballs[5];
+	static Sprite* shadow;
 	static int round;
 
 	TileSet* gokuRight;

@@ -45,10 +45,7 @@ public:
 // ---------------------------------------------------------------------------------
 // Função Membro Inline
 
-inline void Platform::Draw()
-{
-    //platform->Draw(x, y, z);
-}
+
 
 inline float Platform::Width()
 {

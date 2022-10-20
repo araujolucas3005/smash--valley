@@ -97,6 +97,8 @@ void EndGame::Finalize()
     delete gohan;
     delete kidGohan;
     delete audio;
+    delete animation;
+    delete animationPS;
 }
 
 // ------------------------------------------------------------------------------
